@@ -1,4 +1,4 @@
-package com.mghostl.core
+package com.mghostl.fox.core
 
 import de.codecentric.boot.admin.server.config.EnableAdminServer
 import org.springframework.boot.autoconfigure.SpringBootApplication
