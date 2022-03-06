@@ -28,6 +28,8 @@ dependencies {
     // DB
     implementation("org.liquibase:liquibase-core")
     implementation("org.postgresql:postgresql:42.3.2")
+    // Logging
+    implementation("io.github.microutils:kotlin-logging:1.6.10")
 
     // Dev tools
     implementation("org.springframework.boot:spring-boot-devtools")
