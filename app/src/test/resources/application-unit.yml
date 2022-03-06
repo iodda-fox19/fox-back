@@ -1,0 +1,21 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  boot:
+    admin:
+      client:
+        enabled: false
+      server:
+        enabled: false
+  jmx:
+    enabled: false
+  application:
+    admin:
+      enabled: false
+management:
+  metrics:
+    export:
+      jmx:
+        enabled: false
+

@@ -1,11 +1,14 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "2.6.4"
-    id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    kotlin("jvm") version "1.6.10"
-    kotlin("plugin.spring") version "1.6.10"
-    kotlin("plugin.jpa") version "1.6.10"
+    val kotlinVersion = "1.6.10"
+
+    id("org.springframework.boot") version "2.6.4" apply false
+    id("io.spring.dependency-management") version "1.0.11.RELEASE" apply false
+    kotlin("jvm") version kotlinVersion apply  false
+    kotlin("plugin.spring") version kotlinVersion apply false
+    kotlin("plugin.jpa") version kotlinVersion apply false
+    kotlin("kapt") version kotlinVersion apply false
 }
 
 repositories {
@@ -60,6 +63,10 @@ subprojects {
             name = "Sonatype Nexus Snapshots"
             url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
         }
+    }
+
+    tasks.withType<Jar> {
+        enabled = true
     }
 }
 

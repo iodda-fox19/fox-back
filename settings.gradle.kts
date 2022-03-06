@@ -1,2 +1,2 @@
 rootProject.name = "fox-back"
-include("model", "app")
+include("model", "app", "rusgolf")
