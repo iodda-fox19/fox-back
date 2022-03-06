@@ -9,47 +9,64 @@ import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.Table
 import javax.validation.constraints.NotNull
 
 @Entity
+@Table(name = "`Users`", schema = "public")
 data class User(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "id")
     var id: Int? = null,
 
+    @Column(name = "name")
     @NotNull
     var name: String? = null,
 
+    @Column(name = "phone")
     var phone: String? = null,
 
+    @Column(name = "email")
     var email: String? = null,
 
+    @Column(name = "password")
     var password: String? = null,
 
+    @Column(name = "handicap")
     @NotNull
     var handicap: Float? = null,
 
+    @Column(name = "`createdAt`")
     @CreationTimestamp
     var createdAt: ZonedDateTime? = null,
 
+    @Column(name = "`updatedAt`")
     @UpdateTimestamp
     var updatedAt: ZonedDateTime? = null,
 
+    @Column(name = "`isAdmin`")
     var isAdmin: Boolean = false,
 
+    @Column(name = "`isReferee`")
     var isReferee: Boolean = false,
 
+    @Column(name = "`isGamer`")
     var isGamer: Boolean = false,
 
+    @Column(name = "`isTrainer`")
     var isTrainer: Boolean = false,
-    
+
+    @Column(name = "about")
     var about: String? = null,
 
-    @Column(name = "golfRegistryIdRU")
+    @Column(name = "`golfRegistryIdRU`")
     var golfRegistryIdRU: String? = null,
 
-    var handicapUpdateAt: ZonedDateTime = ZonedDateTime.now(),
+    @Column(name = "`handicapUpdateAt`")
+    var handicapUpdateAt: ZonedDateTime? = null,
 
+    @Column(name = "`lastName`")
     var lastName: String? = null
     ) {
     override fun equals(other: Any?): Boolean {

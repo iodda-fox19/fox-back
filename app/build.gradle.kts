@@ -19,6 +19,7 @@ dependencies {
 
     // modules
     implementation(project(":rusgolf"))
+    implementation(project(":model"))
 
     // Kotlin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")

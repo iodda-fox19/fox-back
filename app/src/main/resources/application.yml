@@ -2,7 +2,7 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
   liquibase:
-    enabled: true
+    enabled: false
   application:
     admin:
       enabled: true
@@ -26,10 +26,14 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     properties:
       hibernate:
+        default-schema: public
         dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: none
       show-sql: true
+
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 management:
   server:
     port: 9000
@@ -37,6 +41,9 @@ management:
     web:
       exposure:
         include: "*"
+  endpoint:
+    liquibase:
+      enabled: false
 
 logging:
 #  level:
@@ -46,6 +53,6 @@ logging:
     file: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(${PID}){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n%wEx"
 server:
   port: 8081
-
 rusgolf:
   host: https://hcp.rusgolf.ru/public/player/ru/?page=
+

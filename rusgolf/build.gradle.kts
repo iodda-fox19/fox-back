@@ -5,14 +5,29 @@ plugins {
     kotlin("kapt")
 }
 
+val mapStructVersion = "1.3.1.Final"
+
+kapt {
+    arguments {
+        arg("mapstruct.defaultComponentModel", "spring")
+    }
+}
+
 dependencies {
     // HTML Parsing
     implementation("org.jsoup:jsoup:1.14.3")
+    implementation(project(":model"))
+
 
     // Spring
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
+
+    // MapStruct
+    implementation("org.mapstruct:mapstruct:$mapStructVersion")
+    kapt("org.mapstruct:mapstruct-processor:$mapStructVersion")
+    implementation("org.mapstruct:mapstruct-jdk8:$mapStructVersion")
 
     // Logging
     implementation("io.github.microutils:kotlin-logging:1.6.10")
