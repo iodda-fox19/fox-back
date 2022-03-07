@@ -1,6 +1,6 @@
-package com.mghost.fox
+package com.mghostl.fox.controllers
 
-import com.mghost.fox.schedulers.RusGolfScheduler
+import com.mghostl.fox.rusgolf.schedulers.RusGolfScheduler
 import org.springframework.context.annotation.Profile
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.RequestMapping

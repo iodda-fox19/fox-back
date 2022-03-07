@@ -2,10 +2,11 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
   liquibase:
-    enabled: false
+    enabled: true
   application:
     admin:
       enabled: true
+    name: fox-back
   boot:
     admin:
       client:

@@ -1,0 +1,17 @@
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="mghostl" id="create-users-rusgolf">
+        <createTable tableName="user_rus_golf">
+            <column name="golf_registry_id_ru" type="varchar(10)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="handicap" type="float"/>
+            <column name="handicap_update_at" type="date"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

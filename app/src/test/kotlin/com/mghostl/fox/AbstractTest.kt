@@ -1,6 +1,6 @@
 package com.mghostl.fox
 
-import com.mghost.fox.CoreApplication
+import com.mghostl.fox.CoreApplication
 import com.mghostl.fox.config.DBTestContainersConfiguration
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.annotation.Import

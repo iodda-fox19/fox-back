@@ -1,4 +1,4 @@
-package com.mghost.fox.config
+package com.mghostl.fox.config
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Configuration

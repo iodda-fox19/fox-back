@@ -5,10 +5,12 @@ plugins {
 
     id("org.springframework.boot") version "2.6.4" apply false
     id("io.spring.dependency-management") version "1.0.11.RELEASE" apply false
+    id("com.google.cloud.tools.jib") version "3.1.0" apply false
     kotlin("jvm") version kotlinVersion apply  false
     kotlin("plugin.spring") version kotlinVersion apply false
     kotlin("plugin.jpa") version kotlinVersion apply false
     kotlin("kapt") version kotlinVersion apply false
+
 }
 
 repositories {

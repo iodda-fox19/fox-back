@@ -1,0 +1,32 @@
+ext.buildNumber = {
+//    return System.getenv('IMAGE_TAG')
+    return "0.0.0"
+}
+ext.imagePath = {
+    return "back"
+//    return System.getenv("IMAGE_PATH")
+}
+
+jib {
+    from {
+        image = "openjdk:11"
+        auth {
+            username "mghostl"
+            password "wygbAm-hipdok-bekry0"
+        }
+    }
+
+    to {
+        image = "mghostl/fox-test:${buildNumber()}"
+        auth {
+            username "mghostl"
+            password "wygbAm-hipdok-bekry0"
+        }
+    }
+    container {
+        jvmFlags = ['-Xms512m', '-Xmx1024m', '-Dspring.profiles.active=test']
+        mainClass = 'com.mghost.fox.CoreApplication'
+        ports = ['8081', '9000']
+        creationTime = "USE_CURRENT_TIMESTAMP"
+    }
+}

@@ -3,7 +3,14 @@ plugins {
     kotlin("plugin.spring")
     kotlin("plugin.jpa")
     kotlin("kapt")
+    id("com.google.cloud.tools.jib")
+
 }
+
+apply {
+    from("../docker/docker.gradle")
+}
+
 object Version {
     const val springAdmin = "2.6.2"
 }

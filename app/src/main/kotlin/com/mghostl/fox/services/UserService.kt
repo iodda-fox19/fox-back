@@ -1,4 +1,4 @@
-package com.mghost.fox.services
+package com.mghostl.fox.services
 
 import com.mghostl.fox.model.User
 import com.mghostl.fox.rusgolf.model.UserDTO

@@ -1,13 +1,14 @@
 package com.mghostl.fox.schedulers
 
-import com.mghost.fox.schedulers.RusGolfScheduler
+import com.mghostl.fox.rusgolf.schedulers.RusGolfScheduler
 import com.mghostl.fox.AbstractTest
-import com.mghostl.fox.repository.UserRepository
+import com.mghostl.fox.repository.UserRusGolfRepository
 import com.mghostl.fox.rusgolf.model.UserDTO
 import com.mghostl.fox.rusgolf.services.RusGolfService
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.jdbc.Sql
@@ -22,7 +23,7 @@ class RusGolfSchedulerTest: AbstractTest() {
     lateinit var rusGolfService: RusGolfService
 
     @Autowired
-    lateinit var userRepository: UserRepository
+    lateinit var userRusGolfRepository: UserRusGolfRepository
 
     @Test
     @Sql(scripts = ["classpath:init.sql"], executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
@@ -32,14 +33,14 @@ class RusGolfSchedulerTest: AbstractTest() {
 
         rusGolfScheduler.getRusGolfData()
 
-        userRepository.findAll()
-            .filter { rusGolfUsers.map { user -> user.golfRegistryIdRU }.contains(it.golfRegistryIdRU) }
-            .forEach {
-                val rusGolfUser = rusGolfUsers.first { user -> user.golfRegistryIdRU == it.golfRegistryIdRU}
-                assertEquals(rusGolfUser.golfRegistryIdRU, it.golfRegistryIdRU)
-                assertEquals(rusGolfUser.handicap, it.handicap)
-                assertEquals(rusGolfUser.handicapUpdateAt, it.handicapUpdateAt!!.toLocalDate())
-            }
+        rusGolfUsers.forEach {
+            val user = userRusGolfRepository.findById(it.golfRegistryIdRU)
+            .also { user -> assertTrue(user.isPresent) }.get()
+            assertEquals(user.golfRegistryIdRU, it.golfRegistryIdRU)
+            assertEquals(user.handicap, it.handicap)
+            assertEquals(user.handicapUpdateAt, it.handicapUpdateAt)
+
+        }
     }
 }
 

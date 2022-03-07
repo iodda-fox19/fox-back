@@ -1,6 +1,5 @@
-package com.mghost.fox
+package com.mghostl.fox
 
-import com.mghost.fox.config.LocalSecurityConfiguration
 import com.mghostl.fox.rusgolf.properties.RusGolfProperties
 import de.codecentric.boot.admin.server.config.EnableAdminServer
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -11,15 +10,21 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.transaction.annotation.EnableTransactionManagement
 
+const val BASE_PACKAGE = "com.mghostl.fox"
+
 @EnableAdminServer
-@SpringBootApplication(scanBasePackages = ["com.mghostl"], scanBasePackageClasses = [LocalSecurityConfiguration::class, TestController::class])
+@SpringBootApplication(scanBasePackages = [BASE_PACKAGE])
 @EnableConfigurationProperties(RusGolfProperties::class)
 @EnableScheduling
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = ["com.mghostl.fox"])
-@EntityScan(basePackages = ["com.mghostl.fox"])
-class CoreApplication
+@EnableJpaRepositories(basePackages = [BASE_PACKAGE])
+@EntityScan(basePackages = [BASE_PACKAGE])
+class CoreApplication {
+	companion object {
+		@JvmStatic
+		fun main(args: Array<String>) {
+			runApplication<CoreApplication>(*args)
+		}
+	}
 
-fun main(args: Array<String>) {
-	runApplication<CoreApplication>(*args)
 }
