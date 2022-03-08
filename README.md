@@ -16,3 +16,5 @@
 ``docker pull mghost/fox:${Version}``
 * запустить контейнер
 ``docker run -d -p 8081:8081 ${ImageId}``
+## SWAGGER
+http://213.159.209.245:8081/swagger-ui.html

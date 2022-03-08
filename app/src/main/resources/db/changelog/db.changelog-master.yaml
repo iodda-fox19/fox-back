@@ -3,3 +3,5 @@ databaseChangeLog:
       file: db/changelog/2022-03-07-create-user-rus-golf-table.xml
   - include:
       file: db/changelog/2022-03-08-modify-user-rus-golf-handicap.xml
+  - include:
+      file: db/changelog/2022-03-08-add-rus-golf-column.xml

@@ -2,10 +2,11 @@ package com.mghostl.fox.controllers
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.mghostl.fox.AbstractTest
+import com.mghostl.fox.mappers.UserRusGolfMapper
+import com.mghostl.fox.model.Sex
 import com.mghostl.fox.model.UserRusGolf
 import com.mghostl.fox.repository.UserRusGolfRepository
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -29,12 +30,17 @@ class RusGolfUserControllerTest: AbstractTest() {
     @Autowired
     lateinit var objectMapper: ObjectMapper
 
+    @Autowired
+    lateinit var rusGolfMapper: UserRusGolfMapper
+
     companion object {
         const val golfRegistryIdRU = "RU11"
         const val basePath = "/api/rusgolf"
 
     }
-    val rusGolfUser = UserRusGolf(golfRegistryIdRU, 77.5f, LocalDate.now())
+    val rusGolfUser = UserRusGolf(golfRegistryIdRU, 77.5f, LocalDate.of(2022, 8, 3),
+    LocalDate.of(2022, 8, 3).atTime(0, 0),
+        Sex.MALE, "Лев", "Зильберман", "Михайлович")
 
     @AfterEach
     fun afterEach(){
@@ -48,7 +54,7 @@ class RusGolfUserControllerTest: AbstractTest() {
         mvc.perform(get(basePath)
             .param("golfRegistryIdRU", golfRegistryIdRU))
             .andExpect(status().isOk)
-            .andExpect(content().json(objectMapper.writeValueAsString(rusGolfUser)))
+            .andExpect(content().json(objectMapper.writeValueAsString(rusGolfMapper.map(rusGolfUser))))
     }
 
     @Test
