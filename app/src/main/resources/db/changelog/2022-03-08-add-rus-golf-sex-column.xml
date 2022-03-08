@@ -4,7 +4,6 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
     <changeSet id="change-handicap-type" author="mghostl">
-        <dropColumn tableName="user_rus_golf" columnName="fio"/>
         <addColumn tableName="user_rus_golf">
             <column name="sex" type="varchar(10)"/>
         </addColumn>
