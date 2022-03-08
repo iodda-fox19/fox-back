@@ -1,10 +1,6 @@
 ext.buildNumber = {
 //    return System.getenv('IMAGE_TAG')
-    return "0.0.0"
-}
-ext.imagePath = {
-    return "back"
-//    return System.getenv("IMAGE_PATH")
+    return "0.0.1" // TODO gitVersion
 }
 
 jib {
@@ -25,7 +21,7 @@ jib {
     }
     container {
         jvmFlags = ['-Xms512m', '-Xmx1024m', '-Dspring.profiles.active=test']
-        mainClass = 'com.mghost.fox.CoreApplication'
+        mainClass = 'com.mghostl.fox.CoreApplication'
         ports = ['8081', '9000']
         creationTime = "USE_CURRENT_TIMESTAMP"
     }

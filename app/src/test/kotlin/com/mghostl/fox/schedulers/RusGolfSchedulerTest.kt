@@ -39,6 +39,7 @@ class RusGolfSchedulerTest: AbstractTest() {
             assertEquals(user.golfRegistryIdRU, it.golfRegistryIdRU)
             assertEquals(user.handicap, it.handicap)
             assertEquals(user.handicapUpdateAt, it.handicapUpdateAt)
+            assertEquals(user.fio, it.fio)
 
         }
     }

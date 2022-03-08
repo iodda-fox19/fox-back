@@ -20,7 +20,10 @@ data class UserRusGolf (
     
     @Column(name = "handicap_update_at")
     @NotNull
-    var handicapUpdateAt: LocalDate? = null
+    var handicapUpdateAt: LocalDate? = null,
+
+    @NotNull
+    var fio: String? = null
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -32,8 +35,7 @@ data class UserRusGolf (
 
     override fun hashCode(): Int = javaClass.hashCode()
 
-    @Override
     override fun toString(): String {
-        return this::class.simpleName + "(golfRegistryIdRU = $golfRegistryIdRU , handicap = $handicap , handicapUpdateAt = $handicapUpdateAt )"
+        return "UserRusGolf(golfRegistryIdRU=$golfRegistryIdRU, handicap=$handicap, handicapUpdateAt=$handicapUpdateAt, fio=$fio)"
     }
 }
