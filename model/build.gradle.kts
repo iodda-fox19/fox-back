@@ -22,6 +22,9 @@ dependencies {
     implementation("org.mapstruct:mapstruct:$mapStructVersion")
     kapt("org.mapstruct:mapstruct-processor:$mapStructVersion")
     implementation("org.mapstruct:mapstruct-jdk8:$mapStructVersion")
+
+    implementation("org.springdoc:springdoc-openapi-kotlin:1.6.0")
+
 }
 tasks.withType<org.springframework.boot.gradle.tasks.bundling.BootJar> {
     enabled = false

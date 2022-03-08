@@ -13,6 +13,7 @@ apply {
 
 object Version {
     const val springAdmin = "2.6.2"
+    const val swagger = "1.6.0"
 }
 
 dependencies {
@@ -27,6 +28,11 @@ dependencies {
     // modules
     implementation(project(":rusgolf"))
     implementation(project(":model"))
+
+    //Swagger
+    implementation("org.springdoc:springdoc-openapi-data-rest:${Version.swagger}")
+    implementation("org.springdoc:springdoc-openapi-ui:${Version.swagger}")
+    implementation("org.springdoc:springdoc-openapi-kotlin:${Version.swagger}")
 
     // Kotlin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
