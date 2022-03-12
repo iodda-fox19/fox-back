@@ -22,12 +22,16 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.cloud:spring-cloud-starter-openfeign:3.1.1")
     implementation("de.codecentric:spring-boot-admin-starter-server:${Version.springAdmin}")
     implementation("de.codecentric:spring-boot-admin-starter-client:${Version.springAdmin}")
 
     // modules
     implementation(project(":rusgolf"))
     implementation(project(":model"))
+    implementation(project(":sms"))
+
+    implementation("io.jsonwebtoken:jjwt:0.9.1")
 
     //Swagger
     implementation("org.springdoc:springdoc-openapi-data-rest:${Version.swagger}")

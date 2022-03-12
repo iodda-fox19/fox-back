@@ -26,7 +26,11 @@ class RusGolfParserImpl(
         .map { it.select("td").map { cell -> cell.text() } }
 
     private fun getTable(pageNum: Int): Elements {
-        val document = Jsoup.connect(rusGolfProperties.host + pageNum).get()
+        val document = Jsoup.connect(rusGolfProperties.host + pageNum)
+            .userAgent("Mozilla")
+            .timeout(15000)
+            .referrer("http://google.com")
+            .get()
         return document.select("table")
     }
 
