@@ -2,6 +2,7 @@ package com.mghostl.fox.rusgolf.mappers
 
 import com.mghostl.fox.model.UserRusGolf
 import com.mghostl.fox.rusgolf.model.UserDTO
+import mu.KLogging
 import org.mapstruct.AfterMapping
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
@@ -18,12 +19,18 @@ abstract class RusGolfUserMapper {
     )
     abstract fun map(userDTO: UserDTO): UserRusGolf
 
+    companion object: KLogging()
+
     @AfterMapping
     protected fun map (@MappingTarget user: UserRusGolf, userDTO: UserDTO) {
-        user.apply {
-            lastName = userDTO.fio.split(" ")[0]
-            firstName = userDTO.fio.split(" ")[1]
-            middleName = userDTO.fio.split(" ")[2]
+        try {
+            user.apply {
+                lastName = userDTO.fio.split(" ")[0]
+                firstName = userDTO.fio.split(" ")[1]
+                middleName = userDTO.fio.split(" ")[2]
+            }
+        } catch (e: IndexOutOfBoundsException) {
+            logger.error { "index out of bounds exception. User fio is ${userDTO.fio}" }
         }
     }
 }
