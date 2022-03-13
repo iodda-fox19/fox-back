@@ -1,5 +1,8 @@
 package com.mghostl.fox.handlers
 
+import com.mghostl.fox.sms.model.SmsRuException
+import com.mghostl.fox.sms.model.SmsUserNotFoundException
+import com.mghostl.fox.sms.model.SmsWasSentRecentlyException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -16,4 +19,19 @@ class ControllersExceptionHandler: ResponseEntityExceptionHandler() {
     @ExceptionHandler(EntityNotFoundException::class)
     fun handleException(ex: EntityNotFoundException, request: WebRequest) =
         ResponseEntity(ErrorMessage(ex.message ?: "some Exception"), HttpStatus.NOT_FOUND)
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(SmsUserNotFoundException::class)
+    fun handleException(ex: SmsUserNotFoundException, request: WebRequest) =
+        ResponseEntity(ErrorMessage(ex.message ?: "User not found with this phone"), HttpStatus.CONFLICT)
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(SmsWasSentRecentlyException::class)
+    fun handleException(ex: SmsWasSentRecentlyException, request: WebRequest) =
+        ResponseEntity(ErrorMessage(ex.message ?: "Sms was sent recently"), HttpStatus.FORBIDDEN)
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(SmsRuException::class)
+    fun handleException(ex: SmsRuException, request: WebRequest) =
+        ResponseEntity(ErrorMessage(ex.message ?: "some smsRu exception"), HttpStatus.INTERNAL_SERVER_ERROR)
 }

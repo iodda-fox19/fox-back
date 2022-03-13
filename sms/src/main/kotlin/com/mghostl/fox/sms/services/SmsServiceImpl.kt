@@ -21,7 +21,7 @@ class SmsServiceImpl(
 
     override fun send(msg: String, phone: String) {
         logger.info { "Sending sms with message $msg to $phone " }
-        smsRuFeignClient.sendSms(apiId, msg, "1", listOf(phone), test())
+        smsRuFeignClient.sendSms(apiId, msg, "1", listOf(phone), test(), "FOX 19")
             .also { logger.info { "Sms was sent with status ${it.status}" } }
             .also {
                 if (it.status != Status.OK) {

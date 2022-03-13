@@ -13,7 +13,7 @@ import javax.persistence.Table
 import javax.validation.constraints.NotNull
 
 @Entity
-@Table(name = "`Users`", schema = "public")
+@Table(name = "`Users`")
 data class User(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

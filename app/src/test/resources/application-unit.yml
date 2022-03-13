@@ -13,6 +13,10 @@ spring:
   application:
     admin:
       enabled: false
+  security:
+    user:
+      name: admin
+      password: admin
 management:
   metrics:
     export:
@@ -23,3 +27,4 @@ logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
+

@@ -1,7 +1,6 @@
 package com.mghostl.fox.controllers
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.mghostl.fox.AbstractTest
+import com.mghostl.fox.AbstractMvcTest
 import com.mghostl.fox.mappers.UserRusGolfMapper
 import com.mghostl.fox.model.Sex
 import com.mghostl.fox.model.UserRusGolf
@@ -9,33 +8,21 @@ import com.mghostl.fox.repository.UserRusGolfRepository
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
-import org.springframework.security.test.context.support.WithMockUser
-import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import java.time.LocalDate
 
-@WithMockUser(username = "admin", password = "admin", roles = ["ADMIN"])
-@AutoConfigureMockMvc
-class RusGolfUserControllerTest: AbstractTest() {
-
-    @Autowired
-    lateinit var mvc: MockMvc
+class RusGolfUserControllerTest: AbstractMvcTest("/api/rusgolf") {
 
     @Autowired
     lateinit var userRusGolfRepository: UserRusGolfRepository
-
-    @Autowired
-    lateinit var objectMapper: ObjectMapper
 
     @Autowired
     lateinit var rusGolfMapper: UserRusGolfMapper
 
     companion object {
         const val golfRegistryIdRU = "RU11"
-        const val basePath = "/api/rusgolf"
 
     }
     val rusGolfUser = UserRusGolf(golfRegistryIdRU, 77.5f, LocalDate.of(2022, 8, 3),

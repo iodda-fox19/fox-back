@@ -30,7 +30,7 @@ class SmsServiceTest: AbstractTest() {
     fun `should send sms`() {
         val msg = "Test message"
         val phone = "89605451594"
-        every { smsRuFeignClient.sendSms(apiId, msg, "1", listOf(phone), "1") } returns smsResponse("sms-success")
+        every { smsRuFeignClient.sendSms(apiId, msg, "1", listOf(phone), "1", "FOX 19") } returns smsResponse("sms-success")
 
         smsService.send(msg, phone)
     }
@@ -39,7 +39,7 @@ class SmsServiceTest: AbstractTest() {
     fun `should throw exception if smth goes wrong`() {
         val msg = "Test message"
         val phone = "89605451594"
-        every { smsRuFeignClient.sendSms(apiId, msg, "1", listOf(phone), "1") } returns smsResponse("sms-error")
+        every { smsRuFeignClient.sendSms(apiId, msg, "1", listOf(phone), "1", "FOX 19") } returns smsResponse("sms-error")
 
         assertThrows<SmsRuException> { smsService.send(msg, phone) }
     }
@@ -48,7 +48,7 @@ class SmsServiceTest: AbstractTest() {
     fun `should throw exception if smth goes wrong with sms`() {
         val msg = "Test message"
         val phone = "89605451594"
-        every { smsRuFeignClient.sendSms(apiId, msg, "1", listOf(phone), "1") } returns smsResponse("sms-error-sms")
+        every { smsRuFeignClient.sendSms(apiId, msg, "1", listOf(phone), "1", "FOX 19") } returns smsResponse("sms-error-sms")
 
         assertThrows<SmsRuException> { smsService.send(msg, phone) }
     }

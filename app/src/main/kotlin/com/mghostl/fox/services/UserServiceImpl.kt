@@ -24,8 +24,12 @@ class UserServiceImpl(
             }.let {save(it) }
     }
 
+    @Transactional
     override fun findByGolfRegistryId(golfRegistryId: String) =
         userRepository.findByGolfRegistryIdRU(golfRegistryId)
+
+    @Transactional
+    override fun findByPhone(phone: String) = userRepository.findByPhone(phone)
 
     private fun save(user: User) = userRepository.save(user)
 }

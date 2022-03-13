@@ -10,3 +10,7 @@ dependencies {
     implementation("io.github.microutils:kotlin-logging:1.6.10")
     implementation("com.fasterxml.jackson.core:jackson-annotations:2.13.2")
 }
+
+tasks.withType<org.springframework.boot.gradle.tasks.bundling.BootJar> {
+    enabled = false
+}

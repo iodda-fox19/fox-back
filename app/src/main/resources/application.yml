@@ -60,4 +60,8 @@ sms-ru:
   url: https://sms.ru/sms
   api-id: 992A198F-8AA5-0DEB-C2DD-1D423A9F4350
   test: true
+  timeout: 2  # in minutes
+
+jwt:
+  secret: c92c05b9-9b18-492e-80d6-f34b5122983e
 

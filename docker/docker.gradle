@@ -1,6 +1,6 @@
 ext.buildNumber = {
 //    return System.getenv('IMAGE_TAG')
-    return "0.0.4" // TODO gitVersion
+    return "0.0.5" // TODO gitVersion
 }
 
 jib {
