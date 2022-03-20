@@ -8,9 +8,13 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.annotation.Import
+import org.springframework.http.MediaType
 import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.MvcResult
+import org.springframework.test.web.servlet.ResultActions
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder
 
 @WithMockUser(username = "admin", password = "admin", roles = ["ADMIN"])
 @AutoConfigureMockMvc
@@ -26,4 +30,10 @@ abstract class AbstractMvcTest(
 
     @Autowired
     lateinit var objectMapper: ObjectMapper
+
+    fun MockHttpServletRequestBuilder.json(value: Any) = contentType(MediaType.APPLICATION_JSON)
+        .content(objectMapper.writeValueAsString(value))
+
+    fun <T> ResultActions.andGetResponse(clazz: Class<T>): T = andReturn()
+        .response.contentAsString.let { objectMapper.readValue(it, clazz) }
 }

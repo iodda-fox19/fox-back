@@ -12,4 +12,5 @@ interface UserService {
     fun updateUser(user: User, userDTO: UserDTO): User
     fun findByGolfRegistryId(golfRegistryId: String): User?
     fun findByPhone(phone: String): User?
+    fun findById(id: Int): User
 }

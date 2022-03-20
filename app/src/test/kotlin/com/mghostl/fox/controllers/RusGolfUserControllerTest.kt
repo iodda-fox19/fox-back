@@ -8,6 +8,7 @@ import com.mghostl.fox.repository.UserRusGolfRepository
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
@@ -34,6 +35,7 @@ class RusGolfUserControllerTest: AbstractMvcTest("/api/rusgolf") {
         userRusGolfRepository.deleteAll()
     }
 
+    @WithMockUser(roles = ["GAMER"])
     @Test
     fun `should return rusgolf user by its id`() {
         userRusGolfRepository.save(rusGolfUser)
@@ -44,10 +46,18 @@ class RusGolfUserControllerTest: AbstractMvcTest("/api/rusgolf") {
             .andExpect(content().json(objectMapper.writeValueAsString(rusGolfMapper.map(rusGolfUser))))
     }
 
+    @WithMockUser(roles = ["GAMER"])
     @Test
     fun `should return 404 if there is no user with such id`() {
         mvc.perform(get("/api/rusgolf")
             .param("golfRegistryIdRU", golfRegistryIdRU))
             .andExpect(status().isNotFound)
+    }
+
+    @Test
+    fun `should return 403 if user is not gamer`() {
+        mvc.perform(get("/api/rusgolf")
+            .param("golfRegistryIdRU", golfRegistryIdRU))
+            .andExpect(status().isForbidden)
     }
 }

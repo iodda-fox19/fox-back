@@ -9,13 +9,15 @@ import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.SequenceGenerator
 import javax.persistence.Table
 
 @Entity
 @Table(name = "`Sms`")
 data class Sms (
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "smsSequenceGenerator")
+    @SequenceGenerator(name = "smsSequenceGenerator", sequenceName = "`Sms_id_seq`", allocationSize = 1, initialValue = 1000)
     @Column(name = "id")
     val id: Int? = null,
 

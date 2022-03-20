@@ -25,13 +25,11 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign:3.1.1")
     implementation("de.codecentric:spring-boot-admin-starter-server:${Version.springAdmin}")
     implementation("de.codecentric:spring-boot-admin-starter-client:${Version.springAdmin}")
-
+    implementation("io.jsonwebtoken:jjwt:0.9.1")
     // modules
     implementation(project(":rusgolf"))
     implementation(project(":model"))
     implementation(project(":sms"))
-
-    implementation("io.jsonwebtoken:jjwt:0.9.1")
 
     //Swagger
     implementation("org.springdoc:springdoc-openapi-data-rest:${Version.swagger}")

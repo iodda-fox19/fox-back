@@ -9,10 +9,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
 
-@Profile("local", "test")
+@Profile("no-auth")
 @Configuration
 @EnableWebSecurity
-class LocalSecurityConfiguration : WebSecurityConfigurerAdapter() {
+class LocalSecurityConfiguration() : WebSecurityConfigurerAdapter() {
 
     @Value("\${spring.security.user.name}")
     lateinit var username: String
@@ -25,7 +25,6 @@ class LocalSecurityConfiguration : WebSecurityConfigurerAdapter() {
             .authorizeRequests()
             .antMatchers("/h2-console/**", "/actuator/**", "/admin/**").hasRole("ADMIN")
             .and().httpBasic()
-            // .and().headers().disable() // only for local usage !!
             .and()
             .csrf().disable()
     }

@@ -1,20 +1,31 @@
 package com.mghostl.fox.services
 
+import com.mghostl.fox.dto.SmsDto
+import com.mghostl.fox.model.FoxUserDetails
 import com.mghostl.fox.sms.model.SmsUserNotFoundException
+import com.mghostl.fox.utils.JwtTokenUtil
 import mu.KLogging
 import org.springframework.stereotype.Service
 
 @Service
 class AuthServiceImpl(
     private val authSmsService: AuthSmsService,
-    private val userService: UserService
+    private val userService: UserService,
+    private val jwtTokenUtil: JwtTokenUtil
 ): AuthService {
 
     companion object: KLogging()
 
-    override fun sendAuthSms(phone: String) {
+    override fun sendAuthSms(phone: String): SmsDto {
         logger.info { "Auth user by phone $phone" }
         val user = userService.findByPhone(phone) ?: throw SmsUserNotFoundException("There is no user with such phone $phone")
-        authSmsService.auth(phone, user.id!!)
+        return authSmsService.auth(phone, user.id!!)
     }
+
+    override fun checkCode(smsId: Int, code: String) =
+        authSmsService.checkCode(smsId, code)
+            .let { userService.findById(it) }
+            .let { FoxUserDetails(it) }
+            .let { jwtTokenUtil.generateToken(it) }
+
 }

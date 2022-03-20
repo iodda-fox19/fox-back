@@ -9,6 +9,7 @@ import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.SequenceGenerator
 import javax.persistence.Table
 import javax.validation.constraints.NotNull
 
@@ -16,7 +17,8 @@ import javax.validation.constraints.NotNull
 @Table(name = "`Users`")
 data class User(
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userSequenceGenerator")
+    @SequenceGenerator(name = "userSequenceGenerator", sequenceName = "`Users_id_seq`", allocationSize = 1, initialValue = 1000)
     @Column(name = "id")
     var id: Int? = null,
 

@@ -2,6 +2,7 @@ package com.mghostl.fox.services
 
 import com.mghostl.fox.model.User
 import com.mghostl.fox.repository.UserRepository
+import com.mghostl.fox.rusgolf.exceptions.UserNotFoundException
 import com.mghostl.fox.rusgolf.model.UserDTO
 import mu.KLogging
 import org.springframework.stereotype.Service
@@ -30,6 +31,10 @@ class UserServiceImpl(
 
     @Transactional
     override fun findByPhone(phone: String) = userRepository.findByPhone(phone)
+
+    @Transactional
+    override fun findById(id: Int): User = userRepository.findById(id)
+        .orElseThrow { UserNotFoundException("There is no user with id $id") }
 
     private fun save(user: User) = userRepository.save(user)
 }

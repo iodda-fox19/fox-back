@@ -1,8 +1,10 @@
 package com.mghostl.fox.handlers
 
+import com.mghostl.fox.sms.model.SmsExpiredException
 import com.mghostl.fox.sms.model.SmsRuException
 import com.mghostl.fox.sms.model.SmsUserNotFoundException
 import com.mghostl.fox.sms.model.SmsWasSentRecentlyException
+import com.mghostl.fox.sms.model.WrongSmsCodeException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -34,4 +36,15 @@ class ControllersExceptionHandler: ResponseEntityExceptionHandler() {
     @ExceptionHandler(SmsRuException::class)
     fun handleException(ex: SmsRuException, request: WebRequest) =
         ResponseEntity(ErrorMessage(ex.message ?: "some smsRu exception"), HttpStatus.INTERNAL_SERVER_ERROR)
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(SmsExpiredException::class)
+    fun handleException(ex: SmsExpiredException, request: WebRequest) =
+        ResponseEntity(ErrorMessage(ex.message ?: "sms expired"), HttpStatus.BAD_REQUEST)
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(WrongSmsCodeException::class)
+    fun handleException(ex: WrongSmsCodeException, request: WebRequest) =
+        ResponseEntity(ErrorMessage(ex.message ?: "wrong sms code "), HttpStatus.BAD_REQUEST)
+
 }
