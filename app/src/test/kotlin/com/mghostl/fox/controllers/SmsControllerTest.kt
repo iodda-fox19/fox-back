@@ -74,7 +74,7 @@ class SmsControllerTest: AbstractMvcTest("/api/sms") {
         val phone = "89605451594"
 
         mvc.perform(post(basePath).json(AuthSmsRequest(phone)))
-            .andExpect(status().isConflict)
+            .andExpect(status().isNotFound)
     }
 
     @Test
@@ -121,7 +121,7 @@ class SmsControllerTest: AbstractMvcTest("/api/sms") {
     fun `should return 409 if there was not sms`() {
         mvc.perform(put("$basePath/123")
             .json(CheckCodeRequest("some code")))
-            .andExpect(status().isConflict)
+            .andExpect(status().isNotFound)
     }
 
     @Test

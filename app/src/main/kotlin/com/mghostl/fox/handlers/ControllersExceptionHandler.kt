@@ -25,7 +25,7 @@ class ControllersExceptionHandler: ResponseEntityExceptionHandler() {
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(SmsUserNotFoundException::class)
     fun handleException(ex: SmsUserNotFoundException, request: WebRequest) =
-        ResponseEntity(ErrorMessage(ex.message ?: "User not found with this phone"), HttpStatus.CONFLICT)
+        ResponseEntity(ErrorMessage(ex.message ?: "User not found with this phone"), HttpStatus.NOT_FOUND)
 
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(SmsWasSentRecentlyException::class)
