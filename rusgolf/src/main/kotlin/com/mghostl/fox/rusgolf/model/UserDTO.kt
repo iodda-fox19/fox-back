@@ -3,7 +3,7 @@ package com.mghostl.fox.rusgolf.model
 import com.mghostl.fox.model.Sex
 import java.time.LocalDate
 
-data class UserDTO(
+data class RusGolfUserDTO(
     val golfRegistryIdRU: String,
     val fio: String,
     val handicapUpdateAt: LocalDate,

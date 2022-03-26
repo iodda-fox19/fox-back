@@ -3,7 +3,7 @@ package com.mghostl.fox.parsers
 import com.mghostl.fox.rusgolf.extractors.UserDataExtractor
 import com.mghostl.fox.rusgolf.parsers.RusGolfParserImpl
 import com.mghostl.fox.rusgolf.properties.RusGolfProperties
-import com.mghostl.fox.utils.userDTO
+import com.mghostl.fox.utils.rusGolfUserDTO
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -21,7 +21,7 @@ class RusGolfParserTest {
 
     @Test
     fun `should parse rusgolf`() {
-        every { dataExtractor.extract(any(), any()) } returns userDTO()
+        every { dataExtractor.extract(any(), any()) } returns rusGolfUserDTO()
 
         val response = rusGolfParser.parse(1)
 

@@ -3,6 +3,7 @@ package com.mghostl.fox.controllers
 import com.mghostl.fox.auth.AuthSmsRequest
 import com.mghostl.fox.auth.CheckCodeRequest
 import com.mghostl.fox.dto.SmsDto
+import com.mghostl.fox.dto.SmsDtoWithUser
 import com.mghostl.fox.services.AuthService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
@@ -57,12 +58,13 @@ class SmsController(
     )
     @PutMapping("{smsId}")
     fun checkCode(@Parameter(name = "smsId", `in`= ParameterIn.PATH, description = "sms id in db", required = true,
-    allowEmptyValue = false) @PathVariable smsId: Int, @RequestBody checkCodeRequest: CheckCodeRequest): ResponseEntity<Unit> {
+    allowEmptyValue = false) @PathVariable smsId: Int, @RequestBody checkCodeRequest: CheckCodeRequest): ResponseEntity<SmsDtoWithUser> {
         val code = checkCodeRequest.code
         logger.info { "Receive request for checking code $code for sms id $smsId" }
         return authService.checkCode(smsId, code)
             .let{ ResponseEntity.ok()
-                .header("X-Authentication", it)
-                .build()}
+                .header("X-Authentication", it.second)
+                .body(it.first)
+                }
     }
 }

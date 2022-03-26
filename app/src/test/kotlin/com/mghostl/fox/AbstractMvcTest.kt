@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.MvcResult
 import org.springframework.test.web.servlet.ResultActions
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 
 @WithMockUser(username = "admin", password = "admin", roles = ["ADMIN"])
 @AutoConfigureMockMvc
@@ -36,4 +37,7 @@ abstract class AbstractMvcTest(
 
     fun <T> ResultActions.andGetResponse(clazz: Class<T>): T = andReturn()
         .response.contentAsString.let { objectMapper.readValue(it, clazz) }
+
+    fun ResultActions.andExpectJson(value: Any) = andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(content().json(objectMapper.writeValueAsString(value)))
 }

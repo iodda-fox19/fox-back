@@ -240,7 +240,7 @@ INSERT INTO "Chats" ("id", "createdAt", "updatedAt", "userId", "title", "lastMes
                                                                                              (122,	'2022-01-22 19:39:12.37+00',	'2022-01-22 19:39:12.37+00',	507,	NULL,	NULL),
                                                                                              (123,	'2022-02-03 12:50:39.211+00',	'2022-02-03 12:50:39.211+00',	249,	NULL,	NULL);
 
-DROP TABLE IF EXISTS "Cities";
+DROP TABLE IF EXISTS "Cities" CASCADE;
 CREATE TABLE "public"."Cities" (
                                    "id" integer NOT NULL,
                                    "name" character varying(50) NOT NULL,
@@ -505,7 +505,7 @@ INSERT INTO "ClubLikes" ("id", "createdAt", "updatedAt", "userId", "clubId") VAL
                                                                                  (369,	'2021-12-14 04:48:56.294+00',	'2021-12-14 04:48:56.294+00',	507,	5),
                                                                                  (249,	'2021-11-06 14:24:46.553+00',	'2021-11-06 14:24:46.553+00',	473,	5);
 
-DROP TABLE IF EXISTS "Clubs";
+DROP TABLE IF EXISTS "Clubs" CASCADE;
 DROP SEQUENCE IF EXISTS "Clubs_id_seq";
 CREATE SEQUENCE "Clubs_id_seq" start with 1 INCREMENT by 1 MINVALUE 1  No  MAXVALUE  CACHE 1 ;
 

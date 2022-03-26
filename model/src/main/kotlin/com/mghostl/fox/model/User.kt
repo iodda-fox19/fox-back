@@ -4,11 +4,15 @@ import org.hibernate.Hibernate
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import java.time.ZonedDateTime
+import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
 import javax.persistence.SequenceGenerator
 import javax.persistence.Table
 import javax.validation.constraints.NotNull
@@ -65,11 +69,30 @@ data class User(
     @Column(name = "`golfRegistryIdRU`")
     var golfRegistryIdRU: String? = null,
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST])
+    @JoinColumn(name = "`homeClubId`", nullable = true)
+    var homeClub: Club? = null,
+
     @Column(name = "`handicapUpdateAt`")
     var handicapUpdateAt: ZonedDateTime? = null,
 
+    @Column(name = "avatar")
+    var avatar: String? = null,
+
     @Column(name = "`lastName`")
-    var lastName: String? = null
+    var lastName: String? = null,
+
+    var isSubmittedTrainer: Boolean = false,
+
+    var isSubmittedAdministrator: Boolean = false,
+
+    var isSubmittedHandicap: Boolean = false,
+
+    var toAddEventsInCalendar: Boolean = false,
+
+    var isBlocked: Boolean = false,
+
+    var isDeleted: Boolean = false
     ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

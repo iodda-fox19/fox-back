@@ -1,6 +1,7 @@
 package com.mghostl.fox.services
 
 import com.mghostl.fox.dto.SmsDto
+import com.mghostl.fox.dto.SmsDtoWithUser
 import com.mghostl.fox.model.FoxUserDetails
 import com.mghostl.fox.sms.model.SmsUserNotFoundException
 import com.mghostl.fox.utils.JwtTokenUtil
@@ -22,10 +23,13 @@ class AuthServiceImpl(
         return authSmsService.auth(phone, user.id!!)
     }
 
-    override fun checkCode(smsId: Int, code: String) =
-        authSmsService.checkCode(smsId, code)
-            .let { userService.findById(it) }
+    override fun checkCode(smsId: Int, code: String): Pair<SmsDtoWithUser, String> {
+
+        val smsDtoWithUser = authSmsService.checkCode(smsId, code)
+
+        val token = smsDtoWithUser.user!!.id.let { userService.findById(it!!) }
             .let { FoxUserDetails(it) }
             .let { jwtTokenUtil.generateToken(it) }
-
+        return smsDtoWithUser to token
+    }
 }

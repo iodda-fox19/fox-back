@@ -12,7 +12,6 @@ import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.notNullValue
-import org.hamcrest.core.Is
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -98,6 +97,7 @@ class SmsControllerTest: AbstractMvcTest("/api/sms") {
     fun `should check code and return auth token`() {
         val phone = "89605451594"
         userRepository.save(User(phone = phone))
+        val user = userRepository.findByPhone(phone)
 
         var sendedCode: String? = null
 
@@ -115,6 +115,9 @@ class SmsControllerTest: AbstractMvcTest("/api/sms") {
             .json(CheckCodeRequest(sendedCode!!)))
             .andExpect(status().isOk)
             .andExpect(header().exists("X-Authentication"))
+            .andExpect(jsonPath("$.user.id", `is`(user!!.id)))
+            .andExpect(jsonPath("$.createdAt", notNullValue()))
+            .andExpect(jsonPath("$.updatedAt", notNullValue()))
     }
 
     @Test

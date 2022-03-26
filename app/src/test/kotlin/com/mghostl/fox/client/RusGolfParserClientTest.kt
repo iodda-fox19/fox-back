@@ -3,7 +3,7 @@ package com.mghostl.fox.client
 import com.mghostl.fox.AbstractTest
 import com.mghostl.fox.rusgolf.clients.RusGolfClient
 import com.mghostl.fox.rusgolf.parsers.RusGolfParser
-import com.mghostl.fox.utils.users
+import com.mghostl.fox.utils.rusGolfUsers
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import io.mockk.verify
@@ -20,7 +20,7 @@ class RusGolfParserClientTest: AbstractTest(){
 
     @Test
     fun `should parse`() {
-        val users = users()
+        val users = rusGolfUsers()
         every { rusGolfParser.parse(1) } returns users
         every { rusGolfParser.parse(2) } returns emptySet()
 

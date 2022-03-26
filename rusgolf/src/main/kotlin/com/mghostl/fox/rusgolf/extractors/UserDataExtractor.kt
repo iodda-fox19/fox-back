@@ -2,7 +2,7 @@ package com.mghostl.fox.rusgolf.extractors
 
 import com.mghostl.fox.model.Sex
 import com.mghostl.fox.rusgolf.model.FieldType
-import com.mghostl.fox.rusgolf.model.UserDTO
+import com.mghostl.fox.rusgolf.model.RusGolfUserDTO
 import org.springframework.stereotype.Component
 import java.time.LocalDate
 
@@ -10,9 +10,9 @@ import java.time.LocalDate
 class UserDataExtractor(
     private val fieldExtractors: List<FieldExtractor<*>>,
     private val sexFieldExtractor: SexFieldExtractor
-) : DataExtractor<UserDTO> {
+) : DataExtractor<RusGolfUserDTO> {
 
-    override fun extract(data: List<String>, headers: List<String>) = UserDTO(
+    override fun extract(data: List<String>, headers: List<String>) = RusGolfUserDTO(
         golfRegistryIdRU = getExtractor(FieldType.ID).getString(data, headers),
         fio = getExtractor(FieldType.FIO).getString(data, headers),
         handicapUpdateAt = getExtractor(FieldType.UPDATE_DATE_HANDICAP).getLocalDate(data, headers),

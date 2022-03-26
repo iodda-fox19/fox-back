@@ -1,7 +1,8 @@
 package com.mghostl.fox.services
 
+import com.mghostl.fox.dto.UserDto
 import com.mghostl.fox.model.User
-import com.mghostl.fox.rusgolf.model.UserDTO
+import com.mghostl.fox.rusgolf.model.RusGolfUserDTO
 
 interface UserService {
     /**
@@ -9,8 +10,8 @@ interface UserService {
         @param userDTO - данные из русгольфа
         @return user вернувшийся после сохранения в базу
      */
-    fun updateUser(user: User, userDTO: UserDTO): User
+    fun updateUser(user: User, userDTO: RusGolfUserDTO): User
     fun findByGolfRegistryId(golfRegistryId: String): User?
-    fun findByPhone(phone: String): User?
+    fun findByPhone(phone: String): UserDto
     fun findById(id: Int): User
 }

@@ -3,7 +3,7 @@ package com.mghostl.fox.services
 import com.mghostl.fox.AbstractTest
 import com.mghostl.fox.rusgolf.clients.RusGolfClient
 import com.mghostl.fox.rusgolf.services.RusGolfService
-import com.mghostl.fox.utils.users
+import com.mghostl.fox.utils.rusGolfUsers
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -19,7 +19,7 @@ class RusGolfServiceTest: AbstractTest() {
 
     @Test
     fun `should get user data`() {
-        val users = users()
+        val users = rusGolfUsers()
         every { rusGolfClient.getUserData() } returns users
 
         val response = rusGolfService.getUsersData()

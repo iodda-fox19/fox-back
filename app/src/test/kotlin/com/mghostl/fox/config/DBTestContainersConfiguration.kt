@@ -46,6 +46,7 @@ class DBTestContainersConfiguration {
         .withRegEx(".*database system is ready to accept connections.*\\s")
         .withTimes(2)
         .also { db.waitingFor(it) }
+        .also { db.withInitScript("init.sql") }
         .also { db.start() }
         .let { HikariConfig().apply {
             driverClassName = db.driverClassName

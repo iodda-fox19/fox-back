@@ -1,7 +1,7 @@
 package com.mghostl.fox.rusgolf.mappers
 
 import com.mghostl.fox.model.UserRusGolf
-import com.mghostl.fox.rusgolf.model.UserDTO
+import com.mghostl.fox.rusgolf.model.RusGolfUserDTO
 import mu.KLogging
 import org.mapstruct.AfterMapping
 import org.mapstruct.Mapper
@@ -17,12 +17,12 @@ abstract class RusGolfUserMapper {
         Mapping(target = "middleName", ignore = true),
         Mapping(target = "updateDateTime", ignore = true),
     )
-    abstract fun map(userDTO: UserDTO): UserRusGolf
+    abstract fun map(userDTO: RusGolfUserDTO): UserRusGolf
 
     companion object: KLogging()
 
     @AfterMapping
-    protected fun map (@MappingTarget user: UserRusGolf, userDTO: UserDTO) {
+    protected fun map (@MappingTarget user: UserRusGolf, userDTO: RusGolfUserDTO) {
         try {
             user.apply {
                 lastName = userDTO.fio.split(" ")[0]

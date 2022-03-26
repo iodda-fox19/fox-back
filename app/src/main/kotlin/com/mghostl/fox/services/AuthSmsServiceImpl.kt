@@ -1,7 +1,9 @@
 package com.mghostl.fox.services
 
 import com.mghostl.fox.dto.SmsDto
+import com.mghostl.fox.dto.SmsDtoWithUser
 import com.mghostl.fox.mappers.SmsMapper
+import com.mghostl.fox.mappers.SmsWithUserMapper
 import com.mghostl.fox.model.Sms
 import com.mghostl.fox.repository.SmsRepository
 import com.mghostl.fox.sms.model.SmsExpiredException
@@ -19,6 +21,7 @@ class AuthSmsServiceImpl(
     private val smsRepository: SmsRepository,
     private val smsService: SmsService,
     private val smsMapper: SmsMapper,
+    private val smsDtoWithUserMapper: SmsWithUserMapper
 ): AuthSmsService {
 
     @Value("\${sms-ru.timeout}")
@@ -41,7 +44,7 @@ class AuthSmsServiceImpl(
             }
     }
 
-    override fun checkCode(id: Int, code: String): Int {
+    override fun checkCode(id: Int, code: String): SmsDtoWithUser {
         val smsOpt = smsRepository.findById(id)
         if(smsOpt.isEmpty) {
             throw SmsUserNotFoundException("There is no sms for this id $id")
@@ -53,7 +56,7 @@ class AuthSmsServiceImpl(
         if(sms.sendedCode != code) {
             throw WrongSmsCodeException("Wrong sms code")
         }
-        return sms.userId!!
+        return smsDtoWithUserMapper.map(sms)
     }
 
     private fun Sms.wasExpired() = code != null || createdAt!!.plusSeconds(timeout.toLong()).isBefore(LocalDateTime.now())

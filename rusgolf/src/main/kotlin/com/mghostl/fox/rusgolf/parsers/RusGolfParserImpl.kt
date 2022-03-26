@@ -1,7 +1,7 @@
 package com.mghostl.fox.rusgolf.parsers
 
 import com.mghostl.fox.rusgolf.extractors.DataExtractor
-import com.mghostl.fox.rusgolf.model.UserDTO
+import com.mghostl.fox.rusgolf.model.RusGolfUserDTO
 import com.mghostl.fox.rusgolf.properties.RusGolfProperties
 import org.jsoup.Jsoup
 import org.jsoup.select.Elements
@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component
 @Component
 class RusGolfParserImpl(
     private val rusGolfProperties: RusGolfProperties,
-    private val dataExtractor: DataExtractor<UserDTO>
+    private val dataExtractor: DataExtractor<RusGolfUserDTO>
 ): RusGolfParser {
 
     // TODO make it working faster (parallel calculation) now approximate time = 3M 54S
-    override fun parse(pageNum: Int): Set<UserDTO> {
+    override fun parse(pageNum: Int): Set<RusGolfUserDTO> {
         val table = getTable(pageNum)
         val headers = getHeaders(table)
         return getData(table)

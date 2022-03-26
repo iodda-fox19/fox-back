@@ -1,7 +1,7 @@
 package com.mghostl.fox.rusgolf.services
 
-import com.mghostl.fox.rusgolf.model.UserDTO
+import com.mghostl.fox.rusgolf.model.RusGolfUserDTO
 
 interface RusGolfService {
-    fun getUsersData(): Set<UserDTO>
+    fun getUsersData(): Set<RusGolfUserDTO>
 }

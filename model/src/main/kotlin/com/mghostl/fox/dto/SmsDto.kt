@@ -33,3 +33,42 @@ data class SmsDto(
     )
     var phone: String? = null
 )
+
+
+@Schema(description = "Model for verified sms code")
+data class SmsDtoWithUser(
+    @field:Schema(
+        description = "id in db",
+        example = "123",
+        type = "Int"
+    )
+    var id: Int? = null,
+    @field:Schema(
+        description = "sms creation time",
+        example = "2021-10-31T00:01:23",
+        type = "LocalDateTime"
+    )
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    var createdAt: LocalDateTime? = null,
+    @field:Schema(
+        description = "sms updation time",
+        example = "2021-10-31T00:01:23",
+        type = "LocalDateTime"
+    )
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    var updatedAt: LocalDateTime? = null,
+    @field:Schema(
+        description = "user's data",
+        type = "UserDto"
+    )
+    var user: UserData ? = null
+)
+
+data class UserData(
+    @field:Schema(
+        description = "id in db",
+        example = "123",
+        type = "Int"
+    )
+    var id: Int? = null
+)

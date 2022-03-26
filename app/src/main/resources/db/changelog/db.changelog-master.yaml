@@ -7,3 +7,5 @@ databaseChangeLog:
       file: db/changelog/2022-03-08-add-rus-golf-column.xml
   - include:
       file: db/changelog/2022-03-08-add-rus-golf-sex-column.xml
+  - include:
+      file: db/changelog/2022-03-26-add-new-columns-for-user.xml

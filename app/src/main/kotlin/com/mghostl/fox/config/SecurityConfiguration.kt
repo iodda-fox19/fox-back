@@ -38,7 +38,6 @@ class SecurityConfiguration(
             .antMatchers(HttpMethod.POST,  "/api/sms").permitAll()
             .antMatchers(HttpMethod.PUT,  "/api/sms/**").permitAll()
             .antMatchers("/h2-console/**", "/actuator/**").hasRole("ADMIN")
-            .antMatchers("/api/**").hasRole("GAMER")
             .and().httpBasic()
             .and().csrf().disable()
     }

@@ -12,4 +12,4 @@ import org.springframework.test.context.ActiveProfiles
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = [CoreApplication::class])
 @Import(DBTestContainersConfiguration::class)
 @EnableAutoConfiguration(exclude = [AdminServerDiscoveryAutoConfiguration::class])
-abstract class AbstractTest 
+abstract class AbstractTest

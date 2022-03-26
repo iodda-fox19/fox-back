@@ -1,12 +1,12 @@
 package com.mghostl.fox.model
 
-import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
+import java.io.Serializable
 
 class FoxUserDetails(
      private val user: User
-): UserDetails {
+): UserDetails, Serializable {
 
     private val authorities: MutableList<SimpleGrantedAuthority>
 
