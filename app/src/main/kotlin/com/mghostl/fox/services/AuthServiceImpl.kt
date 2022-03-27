@@ -19,7 +19,7 @@ class AuthServiceImpl(
 
     override fun sendAuthSms(phone: String): SmsDto {
         logger.info { "Auth user by phone $phone" }
-        val user = userService.findByPhone(phone) ?: throw SmsUserNotFoundException("There is no user with such phone $phone")
+        val user = userService.findByPhone(phone)
         return authSmsService.auth(phone, user.id!!)
     }
 

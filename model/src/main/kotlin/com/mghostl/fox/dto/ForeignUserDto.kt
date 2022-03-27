@@ -1,17 +1,17 @@
 package com.mghostl.fox.dto
 
-data class UserDto(
+data class ForeignUserDto(
     var id: Int? = null,
 
     var name: String? = null,
 
     var lastName: String? = null,
 
-    var isGamer: Boolean? = null,
+    var isGamer: Boolean? = false,
 
-    var isTrainer: Boolean? = null,
+    var isTrainer: Boolean? = false,
 
-    var isAdmin: Boolean? = null,
+    var isAdmin: Boolean? = false,
 
     var isSubmittedTrainer: Boolean = false,
 
@@ -25,13 +25,7 @@ data class UserDto(
 
     var homeClub: String? = null,
 
-    var toAddEventsInCalendar: Boolean? = null,
-
     var isBlocked: Boolean? = null,
 
-    var isDeleted: Boolean? = null,
-
-    var avatar: String? = null,
-
-    var phone: String? = null
+    var avatar: String? = null
 )

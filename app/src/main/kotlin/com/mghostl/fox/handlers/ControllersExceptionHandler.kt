@@ -1,5 +1,7 @@
 package com.mghostl.fox.handlers
 
+import com.mghostl.fox.exceptions.IllegalUpdateException
+import com.mghostl.fox.rusgolf.exceptions.UserNotFoundException
 import com.mghostl.fox.sms.model.SmsExpiredException
 import com.mghostl.fox.sms.model.SmsRuException
 import com.mghostl.fox.sms.model.SmsUserNotFoundException
@@ -22,9 +24,14 @@ class ControllersExceptionHandler: ResponseEntityExceptionHandler() {
     fun handleException(ex: EntityNotFoundException, request: WebRequest) =
         ResponseEntity(ErrorMessage(ex.message ?: "some Exception"), HttpStatus.NOT_FOUND)
 
-    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(SmsUserNotFoundException::class)
     fun handleException(ex: SmsUserNotFoundException, request: WebRequest) =
+        ResponseEntity(ErrorMessage(ex.message ?: "User not found with this phone"), HttpStatus.NOT_FOUND)
+
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(UserNotFoundException::class)
+    fun handleException(ex: UserNotFoundException, request: WebRequest) =
         ResponseEntity(ErrorMessage(ex.message ?: "User not found with this phone"), HttpStatus.NOT_FOUND)
 
     @ResponseStatus(HttpStatus.FORBIDDEN)
@@ -46,5 +53,10 @@ class ControllersExceptionHandler: ResponseEntityExceptionHandler() {
     @ExceptionHandler(WrongSmsCodeException::class)
     fun handleException(ex: WrongSmsCodeException, request: WebRequest) =
         ResponseEntity(ErrorMessage(ex.message ?: "wrong sms code "), HttpStatus.BAD_REQUEST)
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(IllegalUpdateException::class)
+    fun handleException(e: IllegalUpdateException, request: WebRequest) =
+        ResponseEntity(ErrorMessage(e.message ?: "Illegal update"), HttpStatus.CONFLICT)
 
 }

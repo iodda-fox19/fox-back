@@ -52,16 +52,16 @@ data class User(
     var updatedAt: ZonedDateTime? = null,
 
     @Column(name = "`isAdmin`")
-    var isAdmin: Boolean = false,
+    var isAdmin: Boolean? = false,
 
     @Column(name = "`isReferee`")
-    var isReferee: Boolean = false,
+    var isReferee: Boolean? = false,
 
     @Column(name = "`isGamer`")
-    var isGamer: Boolean = false,
+    var isGamer: Boolean?= false,
 
     @Column(name = "`isTrainer`")
-    var isTrainer: Boolean = false,
+    var isTrainer: Boolean? = false,
 
     @Column(name = "about")
     var about: String? = null,
@@ -69,7 +69,7 @@ data class User(
     @Column(name = "`golfRegistryIdRU`")
     var golfRegistryIdRU: String? = null,
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST])
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name = "`homeClubId`", nullable = true)
     var homeClub: Club? = null,
 
@@ -88,7 +88,7 @@ data class User(
 
     var isSubmittedHandicap: Boolean = false,
 
-    var toAddEventsInCalendar: Boolean = false,
+    var toAddEventsInCalendar: Boolean? = null,
 
     var isBlocked: Boolean = false,
 

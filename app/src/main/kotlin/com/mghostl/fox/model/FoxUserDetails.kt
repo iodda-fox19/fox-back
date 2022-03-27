@@ -13,10 +13,10 @@ class FoxUserDetails(
     init {
         val roles = mutableListOf("ROLE_USER")
         with(user) {
-            if(isAdmin) roles.add("ROLE_ADMIN")
-            if(isGamer) roles.add("ROLE_GAMER")
-            if(isReferee) roles.add("ROLE_REFEREE")
-            if(isTrainer) roles.add("ROLE_TRAINER")
+            if(isAdmin == true) roles.add("ROLE_ADMIN")
+            if(isGamer == true) roles.add("ROLE_GAMER")
+            if(isReferee == true) roles.add("ROLE_REFEREE")
+            if(isTrainer == true) roles.add("ROLE_TRAINER")
         }
         authorities =  roles.map { SimpleGrantedAuthority(it) }.toMutableList()
     }

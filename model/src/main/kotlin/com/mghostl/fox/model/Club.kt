@@ -4,15 +4,11 @@ import org.hibernate.Hibernate
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import java.time.ZonedDateTime
-import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
 import javax.persistence.SequenceGenerator
 import javax.persistence.Table
 import javax.validation.constraints.NotNull
@@ -61,13 +57,13 @@ data class Club(
 
     var ordering: Int = 0,
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST])
-    @JoinColumn(name = "`countryId`", nullable = false, unique = false)
-    var country: Country? = null,
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST])
-    @JoinColumn(name = "`cityId`", nullable = false, unique = false)
-    var city: City,
+    // @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    // @JoinColumn(name = "`countryId`", nullable = false, unique = false)
+    // var country: Country? = null,
+    //
+    // @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    // @JoinColumn(name = "`cityId`", nullable = false, unique = false)
+    // var city: City,
 
     @Column(name = "`fieldRate`")
     var fieldRate: Float? = null,
