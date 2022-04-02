@@ -23,7 +23,6 @@ dependencies {
     kapt("org.mapstruct:mapstruct-processor:$mapStructVersion")
     implementation("org.mapstruct:mapstruct-jdk8:$mapStructVersion")
 
-    implementation("com.vladmihalcea:hibernate-types-52:2.9.11")
     implementation("org.springdoc:springdoc-openapi-kotlin:1.6.0")
 
 }

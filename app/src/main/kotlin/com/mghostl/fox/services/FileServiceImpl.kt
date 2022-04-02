@@ -3,6 +3,7 @@ package com.mghostl.fox.services
 import com.mghostl.fox.exceptions.FileStorageException
 import com.mghostl.fox.model.Avatar
 import com.mghostl.fox.utils.saveFile
+import org.apache.commons.io.FilenameUtils
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.Resource
 import org.springframework.core.io.UrlResource
@@ -30,15 +31,16 @@ class FileServiceImpl(
         if(fileName.contains("..")) {
             throw FileStorageException("Sorry! Filename contains invalid path sequence $fileName")
         }
-        val uploadDir = "${this.uploadDir}/${user.id}"
-        user.avatar = Avatar(fileName, "/api/avatars/$path")
-        saveFile(uploadDir, path, file)
+        user.avatar = Avatar(fileName, "/api/avatars/$path.${FilenameUtils.getExtension(fileName)}?userId=${user.id}")
+        saveFile(getUploadDir(user.id!!), path, file)
         userService.updateUser(user, phone)
         return user.avatar!!
     }
 
+    private fun getUploadDir(userId: Int) = "${uploadDir}/$userId"
+
     override fun downloadFile(userId: Int, fileName: String): Resource {
-        val path = Paths.get("$uploadDir/$userId").resolve(fileName).normalize()
+        val path = Paths.get(getUploadDir(userId)).resolve(fileName).normalize()
         val resource = UrlResource(path.toUri())
         return if(resource.exists())  resource
         else throw FileNotFoundException("File not found $fileName")

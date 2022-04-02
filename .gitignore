@@ -34,3 +34,5 @@ out/
 ### LOGS ###
 *.log
 logs/*
+/upload/*
+/app/upload/*

@@ -40,4 +40,6 @@ abstract class AbstractMvcTest(
 
     fun ResultActions.andExpectJson(value: Any) = andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(content().json(objectMapper.writeValueAsString(value)))
+
+    fun MockHttpServletRequestBuilder.param(name: String, value: Any) = param(name, value.toString())
 }
