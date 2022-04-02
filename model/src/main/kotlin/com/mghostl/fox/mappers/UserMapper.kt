@@ -28,11 +28,18 @@ abstract class UserMapper {
     abstract fun mapToForeignUser(user: User): ForeignUserDto
 
     @Mappings(
-        Mapping(target = "homeClub", ignore = true)
+        Mapping(target = "homeClub", ignore = true),
+        Mapping(target = "email", ignore = true),
+        Mapping(target = "password", ignore = true),
+        Mapping(target = "createdAt", ignore = true),
+        Mapping(target = "updatedAt", ignore = true),
+        Mapping(target = "referee", ignore = true),
+        Mapping(target = "about", ignore = true),
+        Mapping(target = "handicapUpdateAt", ignore = true),
     )
     abstract fun map(userDto: UserDto): User
 
-    @AfterMapping()
+    @AfterMapping
     fun map(userDto: UserDto, @MappingTarget user: User) {
         user.homeClub = userDto.homeClub?.let { clubRepository.findByName(it) }
     }

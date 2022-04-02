@@ -1,5 +1,6 @@
 package com.mghostl.fox.utils
 
+import com.mghostl.fox.model.Avatar
 import com.mghostl.fox.model.City
 import com.mghostl.fox.model.Club
 import com.mghostl.fox.model.Country
@@ -14,7 +15,7 @@ fun rusGolfUsers() = setOf(rusGolfUserDTO())
 
 fun user() = User(name = "Admin", phone = "+7 (900) 000-00-00", email = "admin@admin.com", isGamer = true,
 isAdmin = true, about = "Самый главный дядя тут", golfRegistryIdRU = "RU004947", lastName = "Adminov", handicap = 52.2f, homeClub = club(),
-toAddEventsInCalendar = false, avatar = "some placee")
+toAddEventsInCalendar = false, avatar = Avatar("fileName", "url"))
 
 fun club() = Club(name = "The best club")
 

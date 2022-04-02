@@ -4,6 +4,7 @@ import com.mghostl.fox.AbstractMvcTest
 import com.mghostl.fox.config.WithMockFoxUser
 import com.mghostl.fox.dto.ForeignUserDto
 import com.mghostl.fox.dto.UserDto
+import com.mghostl.fox.model.Avatar
 import com.mghostl.fox.model.Club
 import com.mghostl.fox.model.PatchUserRequest
 import com.mghostl.fox.repository.ClubRepository
@@ -124,7 +125,7 @@ class UserControllerTest: AbstractMvcTest("/api/users") {
         val userDTO = UserDto(id = userId, name = user.name + "1", lastName = user.lastName + "1",
             isGamer = user.isGamer, isTrainer = user.isTrainer?.let { !it }, isAdmin = user.isAdmin?.let { !it },
             handicap = user.handicap!! + 1, golfRegistryIdRU = user.golfRegistryIdRU + 1, homeClub = newClub.name,
-            avatar = "new" + user.avatar, isBlocked = !user.isBlocked, isDeleted = !user.isDeleted,
+            avatar = Avatar("new", "new url"), isBlocked = !user.isBlocked, isDeleted = !user.isDeleted,
             toAddEventsInCalendar = user.toAddEventsInCalendar?.let { !it } ?: false,
             phone = PHONE)
 
@@ -152,7 +153,7 @@ class UserControllerTest: AbstractMvcTest("/api/users") {
         val userDTO = UserDto(id = userId, name = user.name + "1", lastName = user.lastName + "1",
             isGamer = user.isGamer?.let { !it }, isTrainer = user.isTrainer?.let { !it }, isAdmin = user.isAdmin?.let { !it },
             handicap = user.handicap!! + 1, golfRegistryIdRU = user.golfRegistryIdRU + 1, homeClub = user.homeClub?.name,
-            avatar = "new" + user.avatar, isBlocked = !user.isBlocked, isDeleted = !user.isDeleted,
+            avatar = Avatar("new", "new url"), isBlocked = !user.isBlocked, isDeleted = !user.isDeleted,
             toAddEventsInCalendar = user.toAddEventsInCalendar?.let { !it } ?: false,
             phone = PHONE + 1)
 
@@ -174,7 +175,7 @@ class UserControllerTest: AbstractMvcTest("/api/users") {
         val userDTO = UserDto(id = userId, name = user.name + "1", lastName = user.lastName + "1",
             isGamer = user.isGamer?.let { !it }, isTrainer = user.isTrainer?.let { !it }, isAdmin = user.isAdmin?.let { !it },
             handicap = user.handicap!! + 1, golfRegistryIdRU = user.golfRegistryIdRU + 1, homeClub = user.homeClub?.name,
-            avatar = "new" + user.avatar, isBlocked = !user.isBlocked, isDeleted = !user.isDeleted,
+            avatar = Avatar("new", "new url"), isBlocked = !user.isBlocked, isDeleted = !user.isDeleted,
             toAddEventsInCalendar = user.toAddEventsInCalendar?.let { !it } ?: false,
             phone = PHONE + 1)
 

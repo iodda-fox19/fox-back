@@ -1,5 +1,7 @@
 package com.mghostl.fox.dto
 
+import com.mghostl.fox.model.Avatar
+
 data class ForeignUserDto(
     var id: Int? = null,
 
@@ -27,5 +29,5 @@ data class ForeignUserDto(
 
     var isBlocked: Boolean? = null,
 
-    var avatar: String? = null
+    var avatar: Avatar? = null
 )

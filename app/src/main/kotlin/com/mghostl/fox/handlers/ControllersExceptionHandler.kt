@@ -1,5 +1,6 @@
 package com.mghostl.fox.handlers
 
+import com.mghostl.fox.exceptions.FileStorageException
 import com.mghostl.fox.exceptions.IllegalUpdateException
 import com.mghostl.fox.rusgolf.exceptions.UserNotFoundException
 import com.mghostl.fox.sms.model.SmsExpiredException
@@ -14,10 +15,21 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.context.request.WebRequest
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
+import java.io.FileNotFoundException
 import javax.persistence.EntityNotFoundException
 
 @ControllerAdvice
 class ControllersExceptionHandler: ResponseEntityExceptionHandler() {
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(FileStorageException::class)
+    fun handleException(ex: FileStorageException, request: WebRequest) =
+        ResponseEntity(ErrorMessage(ex.message ?: "File storage exception"), HttpStatus.BAD_REQUEST)
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(FileNotFoundException::class)
+    fun handleException(ex: FileNotFoundException, request: WebRequest) =
+        ResponseEntity(ErrorMessage(ex.message ?: "File not found exception"), HttpStatus.NOT_FOUND)
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(EntityNotFoundException::class)

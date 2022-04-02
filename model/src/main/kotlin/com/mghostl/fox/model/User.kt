@@ -1,7 +1,12 @@
 package com.mghostl.fox.model
 
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType
+import com.vladmihalcea.hibernate.type.json.JsonStringType
 import org.hibernate.Hibernate
 import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.Type
+import org.hibernate.annotations.TypeDef
+import org.hibernate.annotations.TypeDefs
 import org.hibernate.annotations.UpdateTimestamp
 import java.time.ZonedDateTime
 import javax.persistence.CascadeType
@@ -19,6 +24,10 @@ import javax.validation.constraints.NotNull
 
 @Entity
 @Table(name = "`Users`")
+@TypeDefs(value = [
+    TypeDef(name = "json", typeClass = JsonStringType::class),
+        TypeDef(name = "jsonb", typeClass = JsonBinaryType::class)
+])
 data class User(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userSequenceGenerator")
@@ -76,22 +85,29 @@ data class User(
     @Column(name = "`handicapUpdateAt`")
     var handicapUpdateAt: ZonedDateTime? = null,
 
+    @Type(type = "jsonb")
     @Column(name = "avatar")
-    var avatar: String? = null,
+    var avatar: Avatar? = null,
 
     @Column(name = "`lastName`")
     var lastName: String? = null,
 
+    @Column(name = "is_submitted_trainer")
     var isSubmittedTrainer: Boolean = false,
 
+    @Column(name = "is_submitted_administrator")
     var isSubmittedAdministrator: Boolean = false,
 
+    @Column(name = "is_submitted_handicap")
     var isSubmittedHandicap: Boolean = false,
 
+    @Column(name = "to_add_events_in_calendar")
     var toAddEventsInCalendar: Boolean? = null,
 
+    @Column(name = "is_blocked")
     var isBlocked: Boolean = false,
 
+    @Column(name = "is_deleted")
     var isDeleted: Boolean = false
     ) {
     override fun equals(other: Any?): Boolean {

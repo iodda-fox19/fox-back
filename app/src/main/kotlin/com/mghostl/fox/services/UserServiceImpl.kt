@@ -9,6 +9,7 @@ import com.mghostl.fox.repository.UserRepository
 import com.mghostl.fox.rusgolf.exceptions.UserNotFoundException
 import mu.KLogging
 import org.springframework.stereotype.Service
+import java.time.ZonedDateTime
 import javax.persistence.EntityNotFoundException
 import javax.transaction.Transactional
 
@@ -28,7 +29,10 @@ class UserServiceImpl(
         val updatingUser = userMapper.map(userDto).fillWithIgnoringFields(user)
             .apply { id = user.id }
 
-        if(updatingUser.handicap != user.handicap && user.isSubmittedHandicap) updatingUser.isSubmittedHandicap = false
+        if(updatingUser.handicap != user.handicap && user.isSubmittedHandicap) {
+            updatingUser.isSubmittedHandicap = false
+            updatingUser.handicapUpdateAt = ZonedDateTime.now()
+        }
 
         updateCheckers.forEach { it.check(user, updatingUser) }
 
@@ -91,5 +95,10 @@ class UserServiceImpl(
         isSubmittedHandicap = user.isSubmittedHandicap
         isBlocked = user.isBlocked
         isDeleted = user.isDeleted
+        email = user.email
+        password = user.password
+        createdAt = user.createdAt
+        isReferee = user.isReferee
+        about = user.about
     }
 }

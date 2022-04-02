@@ -24,5 +24,6 @@ jib {
         mainClass = 'com.mghostl.fox.CoreApplication'
         ports = ['8081', '9000']
         creationTime = "USE_CURRENT_TIMESTAMP"
+        volumes = ['/media/storage']
     }
 }

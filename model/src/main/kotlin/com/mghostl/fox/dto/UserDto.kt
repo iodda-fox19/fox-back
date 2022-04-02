@@ -1,5 +1,7 @@
 package com.mghostl.fox.dto
 
+import com.mghostl.fox.model.Avatar
+
 data class UserDto(
     var id: Int? = null,
 
@@ -31,7 +33,7 @@ data class UserDto(
 
     var isDeleted: Boolean? = null,
 
-    var avatar: String? = null,
+    var avatar: Avatar? = null,
 
     var phone: String? = null
 )

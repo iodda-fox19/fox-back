@@ -25,6 +25,7 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign:3.1.1")
     implementation("de.codecentric:spring-boot-admin-starter-server:${Version.springAdmin}")
     implementation("de.codecentric:spring-boot-admin-starter-client:${Version.springAdmin}")
+
     implementation("io.jsonwebtoken:jjwt:0.9.1")
     // modules
     implementation(project(":rusgolf"))
@@ -40,6 +41,8 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("com.vladmihalcea:hibernate-types-52:2.9.11")
+
 
     // DB
     implementation("org.liquibase:liquibase-core")

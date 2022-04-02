@@ -41,6 +41,13 @@ spring:
 
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 10MB
+      max-request-size: 11MB
+
 management:
   server:
     port: 9000
@@ -71,3 +78,5 @@ sms-ru:
 jwt:
   secret: c92c05b9-9b18-492e-80d6-f34b5122983e
 
+file:
+  uploadDir: upload
