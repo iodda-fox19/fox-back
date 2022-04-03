@@ -1,6 +1,7 @@
 package com.mghostl.fox.controllers
 
 import com.mghostl.fox.dto.ForeignUserDto
+import com.mghostl.fox.dto.GetUsersResponse
 import com.mghostl.fox.dto.UserDto
 import com.mghostl.fox.mappers.UserMapper
 import com.mghostl.fox.model.FoxUserDetails
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import javax.annotation.security.RolesAllowed
 
@@ -113,4 +115,18 @@ class UserController(
         userService.deleteUser(phone)
         return ResponseEntity(HttpStatus.NO_CONTENT)
     }
+
+    @RolesAllowed("ADMIN")
+    @GetMapping("filtered")
+    @Operation(summary = "Get filtered users")
+    @ApiResponses(
+        value = [ApiResponse(description = "Got filtered users", responseCode = "200")]
+    )
+    fun getUsers(@RequestParam(required = false, defaultValue = "10") limit: Int, @RequestParam(required = false, defaultValue = "0") offset: Int): ResponseEntity<GetUsersResponse> {
+        logger.info { "Getting users with limit $limit and offset $offset" }
+        return userService.getUsers(limit, offset)
+            .let { ResponseEntity.ok(it)}
+    }
+
+
 }

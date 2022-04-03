@@ -1,6 +1,7 @@
 package com.mghostl.fox.services
 
 import com.mghostl.fox.checkers.UpdateChecker
+import com.mghostl.fox.dto.GetUsersResponse
 import com.mghostl.fox.dto.NewUserData
 import com.mghostl.fox.dto.UserDto
 import com.mghostl.fox.mappers.UserMapper
@@ -9,6 +10,7 @@ import com.mghostl.fox.model.User
 import com.mghostl.fox.repository.UserRepository
 import com.mghostl.fox.rusgolf.exceptions.UserNotFoundException
 import mu.KLogging
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
 import javax.persistence.EntityNotFoundException
@@ -90,6 +92,13 @@ class UserServiceImpl(
 
     @Transactional
     override fun createUser(phone: String, userData: NewUserData) = save(userMapper.map(userData, phone))
+
+    @Transactional
+    override fun getUsers(limit: Int, offset: Int) = PageRequest.of(offset, limit)
+        .let { userRepository.findAll(it)}
+        .let { it to it.totalElements }
+        .let { it.first.map { user -> userMapper.map(user) }  to it.second}
+        .let { GetUsersResponse(it.first.toSet(), it.second) }
 
     private fun save(user: User) = userRepository.save(user)
 

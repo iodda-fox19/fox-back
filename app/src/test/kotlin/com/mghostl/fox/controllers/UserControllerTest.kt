@@ -3,7 +3,9 @@ package com.mghostl.fox.controllers
 import com.mghostl.fox.AbstractMvcTest
 import com.mghostl.fox.config.WithMockFoxUser
 import com.mghostl.fox.dto.ForeignUserDto
+import com.mghostl.fox.dto.GetUsersResponse
 import com.mghostl.fox.dto.UserDto
+import com.mghostl.fox.mappers.UserMapper
 import com.mghostl.fox.model.Avatar
 import com.mghostl.fox.model.Club
 import com.mghostl.fox.model.PatchUserRequest
@@ -32,6 +34,9 @@ class UserControllerTest: AbstractMvcTest("/api/users") {
 
     @Autowired
     private lateinit var userRepository: UserRepository
+
+    @Autowired
+    private lateinit var userMapper: UserMapper
 
     @Autowired
     private lateinit var clubRepository: ClubRepository
@@ -301,6 +306,32 @@ class UserControllerTest: AbstractMvcTest("/api/users") {
 
         mvc.perform(patch("$basePath/$userId").json(patchRequest))
             .andExpect(status().isForbidden)
+    }
+
+    @WithMockFoxUser(roles = ["ADMIN"], phone = PHONE)
+    @Test
+    fun `should return users`() {
+        val offset = 0
+        val limit = 10
+        val users = mutableSetOf<UserDto>()
+        repeat(10) {
+            user().also { userRepository.save(it) }
+                .also { users.add(userMapper.map(it)) }
+        }
+        val getUsersResponse = GetUsersResponse(users, 10)
+        mvc.perform(get("$basePath/filtered")
+            .param("offset", offset)
+            .param("limit", limit))
+            .andExpect(status().isOk)
+            .andExpectJson(getUsersResponse)
+    }
+
+    @WithMockFoxUser(roles = ["USER"])
+    @Test
+    fun `should return 403 for not admins`() {
+        mvc.perform(get("$basePath/filtered"))
+            .andExpect(status().isForbidden)
+
     }
 
 }

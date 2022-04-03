@@ -15,6 +15,4 @@ class JwtUserDetailsService(
 ): UserDetailsService {
     override fun loadUserByUsername(username: String) = userRepository.findByPhone(username)?.let { FoxUserDetails(it) }
             ?: smsRepository.findAllByPhone(username).firstOrNull()?.let { RecentlyRegisteredUserDetails(username) }
-            ?:throw UsernameNotFoundException("User not found with username: $username")
-
 }
