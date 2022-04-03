@@ -1,6 +1,8 @@
 package com.mghostl.fox.dto
 
 import com.fasterxml.jackson.annotation.JsonFormat
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonInclude
 import io.swagger.v3.oas.annotations.media.Schema
 import java.time.LocalDateTime
 
@@ -34,7 +36,7 @@ data class SmsDto(
     var phone: String? = null
 )
 
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Schema(description = "Model for verified sms code")
 data class SmsDtoWithUser(
     @field:Schema(
@@ -61,7 +63,13 @@ data class SmsDtoWithUser(
         description = "user's data",
         type = "UserDto"
     )
-    var user: UserData ? = null
+    var user: UserData ? = null,
+    @field:Schema(
+        description = "user's phone",
+        example = "89992341232",
+        type = "String"
+    )
+    var phone: String? = null
 )
 
 data class UserData(

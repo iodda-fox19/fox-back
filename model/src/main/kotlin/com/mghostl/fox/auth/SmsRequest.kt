@@ -1,5 +1,5 @@
 package com.mghostl.fox.auth
 
-data class AuthSmsRequest(
+data class SmsRequest(
     val phone: String
 )

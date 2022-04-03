@@ -1,7 +1,7 @@
 package com.mghostl.fox.controllers
 
-import com.mghostl.fox.dto.UserDto
 import com.mghostl.fox.dto.ForeignUserDto
+import com.mghostl.fox.dto.UserDto
 import com.mghostl.fox.mappers.UserMapper
 import com.mghostl.fox.model.FoxUserDetails
 import com.mghostl.fox.model.PatchUserRequest
@@ -26,16 +26,16 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import javax.annotation.security.RolesAllowed
 
-@RolesAllowed("USER")
 @RequestMapping("api/users")
 @RestController
 class UserController(
     private val userService: UserService,
     private val userMapper: UserMapper
-    ) {
+) {
 
-    companion object: KLogging()
+    companion object : KLogging()
 
+    @RolesAllowed("USER")
     @GetMapping
     @Operation(summary = "get current user")
     @ApiResponses(
@@ -43,12 +43,14 @@ class UserController(
             ApiResponse(description = "Successful operation", responseCode = "200")
         ]
     )
-    fun getUser(@UserPhone phone: String): ResponseEntity<UserDto> = SecurityContextHolder.getContext().authentication.principal
-    .let { it as FoxUserDetails }.username!!
-        .also { logger.info { "Getting current user with phone: $it" } }
-        .let { userService.findByPhone(phone) }
-        .let { ResponseEntity.ok(it) }
+    fun getUser(@UserPhone phone: String): ResponseEntity<UserDto> =
+        SecurityContextHolder.getContext().authentication.principal
+            .let { it as FoxUserDetails }.username!!
+            .also { logger.info { "Getting current user with phone: $it" } }
+            .let { userService.findByPhone(phone) }
+            .let { ResponseEntity.ok(it) }
 
+    @RolesAllowed("USER")
     @GetMapping("{userId}")
     @Operation(summary = "get user by id")
     @ApiResponses(
@@ -64,12 +66,16 @@ class UserController(
             .let { ResponseEntity.ok(it) }
     }
 
+    @RolesAllowed("USER")
     @PutMapping
     @Operation(summary = "update current user")
     @ApiResponses(
         value = [
-            ApiResponse(description = "User was updated", responseCode = "200", content = [Content(
-                mediaType = "application/json", schema = Schema(implementation = UserDto::class))]),
+            ApiResponse(
+                description = "User was updated", responseCode = "200", content = [Content(
+                    mediaType = "application/json", schema = Schema(implementation = UserDto::class)
+                )]
+            ),
             ApiResponse(description = "Forbidden kind of update", responseCode = "409")
         ]
     )
@@ -91,9 +97,10 @@ class UserController(
     fun patchUser(@PathVariable userId: Int, @RequestBody patchUserRequest: PatchUserRequest): ResponseEntity<UserDto> {
         logger.info { "Patching by admin user with $userId" }
         return userService.patchUser(userId, patchUserRequest)
-            .let { ResponseEntity.ok(it)}
+            .let { ResponseEntity.ok(it) }
     }
 
+    @RolesAllowed("USER")
     @DeleteMapping
     @Operation(summary = "Delete current user")
     @ApiResponses(
@@ -103,7 +110,7 @@ class UserController(
     )
     fun deleteUser(@UserPhone phone: String): ResponseEntity<Unit> {
         logger.info { "Deleting current user $phone" }
-        return userService.deleteUser(phone)
-            .let{ ResponseEntity(HttpStatus.NO_CONTENT)}
+        userService.deleteUser(phone)
+        return ResponseEntity(HttpStatus.NO_CONTENT)
     }
 }

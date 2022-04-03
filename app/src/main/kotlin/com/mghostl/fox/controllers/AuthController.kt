@@ -1,6 +1,6 @@
 package com.mghostl.fox.controllers
 
-import com.mghostl.fox.auth.AuthSmsRequest
+import com.mghostl.fox.auth.SmsRequest
 import com.mghostl.fox.auth.CheckCodeRequest
 import com.mghostl.fox.dto.SmsDto
 import com.mghostl.fox.dto.SmsDtoWithUser
@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("api/sms")
-class SmsController(
+@RequestMapping("api/auth")
+class AuthController(
     private val authService: AuthService
 ) {
 
@@ -38,7 +38,7 @@ class SmsController(
         ]
     )
     @PostMapping
-    fun sendSms(@RequestBody authSmsRequest: AuthSmsRequest): ResponseEntity<SmsDto> {
+    fun sendSms(@RequestBody authSmsRequest: SmsRequest): ResponseEntity<SmsDto> {
         val phone = authSmsRequest.phone
         logger.info { "Receive request for sending auth sms to phone $phone" }
         return authService.sendAuthSms(phone)

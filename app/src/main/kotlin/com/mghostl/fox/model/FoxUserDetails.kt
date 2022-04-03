@@ -28,7 +28,7 @@ class FoxUserDetails(
 
     override fun isAccountNonExpired() = true
 
-    override fun isAccountNonLocked() = true
+    override fun isAccountNonLocked() = user.isBlocked || user.isDeleted
 
     override fun isCredentialsNonExpired() = true
 

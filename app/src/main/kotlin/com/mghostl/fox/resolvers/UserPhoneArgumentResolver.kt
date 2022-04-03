@@ -1,8 +1,10 @@
 package com.mghostl.fox.resolvers
 
 import com.mghostl.fox.model.FoxUserDetails
+import com.mghostl.fox.model.RecentlyRegisteredUserDetails
 import org.springframework.core.MethodParameter
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.web.bind.support.WebDataBinderFactory
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.web.method.support.HandlerMethodArgumentResolver
@@ -17,6 +19,10 @@ class UserPhoneArgumentResolver: HandlerMethodArgumentResolver {
         webRequest: NativeWebRequest,
         binderFactory: WebDataBinderFactory?
     ) = SecurityContextHolder.getContext().authentication.principal
-        .let { if(it !is FoxUserDetails) null else it}
+        .let { when(it) {
+            is FoxUserDetails, is RecentlyRegisteredUserDetails -> it
+            else -> null
+        }}
+        ?.let { it as UserDetails }
         ?.username ?: "Unrecognized phone"
 }

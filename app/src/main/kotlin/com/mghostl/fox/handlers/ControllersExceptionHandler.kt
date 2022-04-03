@@ -2,6 +2,7 @@ package com.mghostl.fox.handlers
 
 import com.mghostl.fox.exceptions.FileStorageException
 import com.mghostl.fox.exceptions.IllegalUpdateException
+import com.mghostl.fox.exceptions.UserWasAlreadyRegisteredException
 import com.mghostl.fox.rusgolf.exceptions.UserNotFoundException
 import com.mghostl.fox.sms.model.SmsExpiredException
 import com.mghostl.fox.sms.model.SmsRuException
@@ -20,6 +21,11 @@ import javax.persistence.EntityNotFoundException
 
 @ControllerAdvice
 class ControllersExceptionHandler: ResponseEntityExceptionHandler() {
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(UserWasAlreadyRegisteredException::class)
+    fun handleException(ex: UserWasAlreadyRegisteredException, request: WebRequest) =
+        ResponseEntity(ErrorMessage(ex.message ?: "File storage exception"), HttpStatus.CONFLICT)
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(FileStorageException::class)

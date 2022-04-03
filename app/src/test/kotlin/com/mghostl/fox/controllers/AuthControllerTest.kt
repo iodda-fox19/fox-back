@@ -1,7 +1,7 @@
 package com.mghostl.fox.controllers
 
 import com.mghostl.fox.AbstractMvcTest
-import com.mghostl.fox.auth.AuthSmsRequest
+import com.mghostl.fox.auth.SmsRequest
 import com.mghostl.fox.auth.CheckCodeRequest
 import com.mghostl.fox.dto.SmsDto
 import com.mghostl.fox.model.User
@@ -24,7 +24,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.header
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-class SmsControllerTest: AbstractMvcTest("/api/sms") {
+class AuthControllerTest: AbstractMvcTest("/api/auth") {
 
     @MockkBean
     lateinit var smsService: SmsService
@@ -56,7 +56,7 @@ class SmsControllerTest: AbstractMvcTest("/api/sms") {
             val phoneArg = secondArg<String>()
             assertEquals(phone, phoneArg)
         }
-        mvc.perform(post(basePath).json(AuthSmsRequest(phone)))
+        mvc.perform(post(basePath).json(SmsRequest(phone)))
             .andExpect(status().isOk)
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.phone", `is`(phone)))
@@ -72,7 +72,7 @@ class SmsControllerTest: AbstractMvcTest("/api/sms") {
     fun `should return 409 if there is no user with such phone`() {
         val phone = "89605451594"
 
-        mvc.perform(post(basePath).json(AuthSmsRequest(phone)))
+        mvc.perform(post(basePath).json(SmsRequest(phone)))
             .andExpect(status().isNotFound)
     }
 
@@ -86,10 +86,10 @@ class SmsControllerTest: AbstractMvcTest("/api/sms") {
             assertEquals(phone, phoneArg)
         }
 
-        mvc.perform(post(basePath).json(AuthSmsRequest(phone)))
+        mvc.perform(post(basePath).json(SmsRequest(phone)))
             .andExpect(status().isOk)
 
-        mvc.perform(post(basePath).json(AuthSmsRequest(phone)))
+        mvc.perform(post(basePath).json(SmsRequest(phone)))
             .andExpect(status().isForbidden)
     }
 
@@ -107,7 +107,7 @@ class SmsControllerTest: AbstractMvcTest("/api/sms") {
             val code = firstArg<String>().split("Authentication code: ")[1]
             sendedCode = code
         }
-       val response = mvc.perform(post(basePath).json(AuthSmsRequest(phone)))
+       val response = mvc.perform(post(basePath).json(SmsRequest(phone)))
             .andExpect(status().isOk)
            .andGetResponse(SmsDto::class.java)
 
@@ -140,7 +140,7 @@ class SmsControllerTest: AbstractMvcTest("/api/sms") {
             val code = firstArg<String>().split("Authentication code: ")[1]
             sendedCode = code
         }
-        val response = mvc.perform(post(basePath).json(AuthSmsRequest(phone)))
+        val response = mvc.perform(post(basePath).json(SmsRequest(phone)))
             .andExpect(status().isOk)
             .andGetResponse(SmsDto::class.java)
 
@@ -159,7 +159,7 @@ class SmsControllerTest: AbstractMvcTest("/api/sms") {
             val phoneArg = secondArg<String>()
             assertEquals(phone, phoneArg)
         }
-        val response = mvc.perform(post(basePath).json(AuthSmsRequest(phone)))
+        val response = mvc.perform(post(basePath).json(SmsRequest(phone)))
             .andExpect(status().isOk)
             .andGetResponse(SmsDto::class.java)
 

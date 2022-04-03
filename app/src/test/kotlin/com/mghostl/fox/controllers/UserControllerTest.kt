@@ -250,7 +250,7 @@ class UserControllerTest: AbstractMvcTest("/api/users") {
         mvc.perform(delete(basePath))
             .andExpect(status().isNoContent)
 
-        assertTrue(userRepository.findByPhone(PHONE)?.isDeleted ?: false)
+        assertTrue(userRepository.findByPhone(PHONE)!!.isDeleted)
     }
 
     @WithMockFoxUser(roles = ["ADMIN"], phone = PHONE)

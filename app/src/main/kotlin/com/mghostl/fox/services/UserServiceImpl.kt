@@ -1,6 +1,7 @@
 package com.mghostl.fox.services
 
 import com.mghostl.fox.checkers.UpdateChecker
+import com.mghostl.fox.dto.NewUserData
 import com.mghostl.fox.dto.UserDto
 import com.mghostl.fox.mappers.UserMapper
 import com.mghostl.fox.model.PatchUserRequest
@@ -86,6 +87,9 @@ class UserServiceImpl(
         }
         .also { save(it) }
         .let { userMapper.map(it) }
+
+    @Transactional
+    override fun createUser(phone: String, userData: NewUserData) = save(userMapper.map(userData, phone))
 
     private fun save(user: User) = userRepository.save(user)
 
