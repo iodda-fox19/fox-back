@@ -30,4 +30,5 @@ logging:
 
 sms-ru:
   timeout: 5
+  test: true
 
