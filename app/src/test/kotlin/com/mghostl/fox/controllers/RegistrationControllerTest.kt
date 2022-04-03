@@ -56,7 +56,7 @@ class RegistrationControllerTest: AbstractMvcTest("/api/registration") {
             sendedCode = code
 
             val phoneArg = secondArg<String>()
-            Assertions.assertEquals(phone, phoneArg)
+            assertEquals(phone, phoneArg)
         }
         mvc.perform(post(basePath).json(SmsRequest(phone)))
             .andExpect(status().isOk)
@@ -67,7 +67,7 @@ class RegistrationControllerTest: AbstractMvcTest("/api/registration") {
             .andExpect(jsonPath("$.createdAt", Matchers.notNullValue()))
 
         val sms = smsRepository.findAll().filter { it.phone == phone }.maxByOrNull { it.createdAt!! }!!
-        Assertions.assertEquals(sendedCode, sms.sendedCode)
+        assertEquals(sendedCode, sms.sendedCode)
     }
 
     @Test
@@ -87,7 +87,7 @@ class RegistrationControllerTest: AbstractMvcTest("/api/registration") {
 
         every { smsService.send(any(), any()) } answers {
             val phoneArg = secondArg<String>()
-            Assertions.assertEquals(phone, phoneArg)
+            assertEquals(phone, phoneArg)
         }
 
         mvc.perform(post(basePath).json(SmsRequest(phone)))
@@ -105,7 +105,7 @@ class RegistrationControllerTest: AbstractMvcTest("/api/registration") {
 
         every { smsService.send(any(), any()) } answers {
             val phoneArg = secondArg<String>()
-            Assertions.assertEquals(phone, phoneArg)
+            assertEquals(phone, phoneArg)
             val code = firstArg<String>().split("Registration code: ")[1]
             sendedCode = code
         }
@@ -117,7 +117,7 @@ class RegistrationControllerTest: AbstractMvcTest("/api/registration") {
             MockMvcRequestBuilders.put("$basePath/${response.id}")
             .json(CheckCodeRequest(sendedCode!!)))
             .andExpect(status().isOk)
-            .andExpect(MockMvcResultMatchers.header().exists("X-Authentication"))
+            .andExpect(header().exists("X-Authentication"))
             .andExpect(jsonPath("$.createdAt", Matchers.notNullValue()))
             .andExpect(jsonPath("$.updatedAt", Matchers.notNullValue()))
     }
@@ -138,7 +138,7 @@ class RegistrationControllerTest: AbstractMvcTest("/api/registration") {
 
         every { smsService.send(any(), any()) } answers {
             val phoneArg = secondArg<String>()
-            Assertions.assertEquals(phone, phoneArg)
+            assertEquals(phone, phoneArg)
             val code = firstArg<String>().split("Registration code: ")[1]
             sendedCode = code
         }
@@ -159,7 +159,7 @@ class RegistrationControllerTest: AbstractMvcTest("/api/registration") {
 
         every { smsService.send(any(), any()) } answers {
             val phoneArg = secondArg<String>()
-            Assertions.assertEquals(phone, phoneArg)
+            assertEquals(phone, phoneArg)
         }
         val response = mvc.perform(post(basePath).json(SmsRequest(phone)))
             .andExpect(status().isOk)
@@ -190,6 +190,7 @@ class RegistrationControllerTest: AbstractMvcTest("/api/registration") {
 
         val userDto = UserDto(phone = phone, name = data.name, isAdmin = false,
         isBlocked = false, isDeleted = false, isGamer = false, isTrainer = false,
+            toAddEventsInCalendar = false
         )
 
         val response = mvc.perform(post("$basePath/user")

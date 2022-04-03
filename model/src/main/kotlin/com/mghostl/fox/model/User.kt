@@ -95,7 +95,7 @@ data class User(
     var isSubmittedHandicap: Boolean = false,
 
     @Column(name = "to_add_events_in_calendar")
-    var toAddEventsInCalendar: Boolean? = null,
+    var toAddEventsInCalendar: Boolean? = false,
 
     @Column(name = "is_blocked")
     var isBlocked: Boolean = false,
