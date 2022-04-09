@@ -26,6 +26,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 abstract class AbstractMvcTest(
     protected val basePath: String
 ){
+
     @Autowired
     lateinit var mvc: MockMvc
 
