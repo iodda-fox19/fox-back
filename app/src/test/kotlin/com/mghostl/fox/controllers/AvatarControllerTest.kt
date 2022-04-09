@@ -60,7 +60,7 @@ class AvatarControllerTest: AbstractMvcTest("/api/avatars") {
 
         mvc.perform(multipart(basePath).file(file))
             .andExpect(status().isOk)
-            .andExpect(jsonPath("$.avatar.fileName", `is`(file.originalFilename)))
+            .andExpect(jsonPath("$.avatar.filename", `is`(file.originalFilename)))
             .andExpect(jsonPath("$.avatar.url", matchesPattern(".*$basePath.*\\?userId=$userId")))
     }
 

@@ -6,6 +6,7 @@ import com.mghostl.fox.mappers.SmsMapper
 import com.mghostl.fox.mappers.SmsWithUserMapper
 import com.mghostl.fox.model.Sms
 import com.mghostl.fox.repository.SmsRepository
+import com.mghostl.fox.sms.model.ExceedMaxCodeAttemptsException
 import com.mghostl.fox.sms.model.SmsExpiredException
 import com.mghostl.fox.sms.model.SmsUserNotFoundException
 import com.mghostl.fox.sms.model.SmsWasSentRecentlyException
@@ -44,7 +45,7 @@ class SmsCodeServiceImpl(
             }
     }
 
-    @Transactional
+    @Transactional(dontRollbackOn = [WrongSmsCodeException::class])
     override fun checkCode(smsId: Int, code: String): SmsDtoWithUser {
         val smsOpt = smsRepository.findById(smsId)
         if(smsOpt.isEmpty) {
@@ -54,7 +55,12 @@ class SmsCodeServiceImpl(
         if(sms.wasExpired()) {
             throw SmsExpiredException("Sms code $code was expired")
         }
+        if(sms.attempts == 3) {
+            throw ExceedMaxCodeAttemptsException("Max attempts for sms code was exceeded")
+        }
         if(sms.sendedCode != code) {
+            sms.attempts += 1
+            smsRepository.save(sms)
             throw WrongSmsCodeException("Wrong sms code")
         }
         return smsDtoWithUserMapper.map(sms)

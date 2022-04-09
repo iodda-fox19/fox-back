@@ -35,6 +35,8 @@ data class Sms (
     @Column(name = "`createdAt`")
     var createdAt: LocalDateTime? = null,
 
+    var attempts: Int = 0,
+
     @UpdateTimestamp
     @Column(name = "`updatedAt`")
     var updatedAt: LocalDateTime? = null

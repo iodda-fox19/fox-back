@@ -163,9 +163,35 @@ class AuthControllerTest: AbstractMvcTest("/api/auth") {
             .andExpect(status().isOk)
             .andGetResponse(SmsDto::class.java)
 
-        Thread.sleep((1000 * 10).toLong())
         mvc.perform(put("$basePath/${response.id}")
             .json(CheckCodeRequest("wrong code")))
             .andExpect(status().isBadRequest)
+    }
+
+    @Test
+    fun `should block code after 3 attempts`() {
+        val phone = "89605451594"
+        userRepository.save(User(phone = phone))
+
+        every { smsService.send(any(), any()) } answers {
+            val phoneArg = secondArg<String>()
+            assertEquals(phone, phoneArg)
+        }
+        val response = mvc.perform(post(basePath).json(SmsRequest(phone)))
+            .andExpect(status().isOk)
+            .andGetResponse(SmsDto::class.java)
+
+        repeat(3) {
+            mvc.perform(put("$basePath/${response.id}")
+                .json(CheckCodeRequest("wrong code")))
+                .andExpect(status().isBadRequest)
+        }
+
+        val rightCode = smsRepository.findAllByPhone(phone).maxByOrNull { it.createdAt!! }!!.sendedCode!!
+
+        mvc.perform(put("$basePath/${response.id}")
+            .json(CheckCodeRequest(rightCode)))
+            .andExpect(status().isForbidden)
+
     }
 }

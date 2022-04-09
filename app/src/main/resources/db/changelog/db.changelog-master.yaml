@@ -11,3 +11,5 @@ databaseChangeLog:
       file: db/changelog/2022-03-26-add-new-columns-for-user.xml
   - include:
       file: db/changelog/2022-04-02--modify-avatar-data-type.xml
+  - include:
+      file: db/changelog/2022-04-09--add-sms-attempts.xml

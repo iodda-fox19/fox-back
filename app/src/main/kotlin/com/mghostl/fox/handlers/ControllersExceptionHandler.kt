@@ -4,6 +4,7 @@ import com.mghostl.fox.exceptions.FileStorageException
 import com.mghostl.fox.exceptions.IllegalUpdateException
 import com.mghostl.fox.exceptions.UserWasAlreadyRegisteredException
 import com.mghostl.fox.rusgolf.exceptions.UserNotFoundException
+import com.mghostl.fox.sms.model.ExceedMaxCodeAttemptsException
 import com.mghostl.fox.sms.model.SmsExpiredException
 import com.mghostl.fox.sms.model.SmsRuException
 import com.mghostl.fox.sms.model.SmsUserNotFoundException
@@ -26,6 +27,11 @@ class ControllersExceptionHandler: ResponseEntityExceptionHandler() {
     @ExceptionHandler(UserWasAlreadyRegisteredException::class)
     fun handleException(ex: UserWasAlreadyRegisteredException, request: WebRequest) =
         ResponseEntity(ErrorMessage(ex.message ?: "File storage exception"), HttpStatus.CONFLICT)
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(ExceedMaxCodeAttemptsException::class)
+    fun handleException(ex: ExceedMaxCodeAttemptsException, request: WebRequest) =
+        ResponseEntity(ErrorMessage(ex.message ?: "exceed max code attempts"), HttpStatus.FORBIDDEN)
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(FileStorageException::class)
