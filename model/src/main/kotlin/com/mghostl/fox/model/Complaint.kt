@@ -36,6 +36,8 @@ data class Complaint(
     @Column(name = "`updatedAt`")
     @UpdateTimestamp
     var updatedAt: ZonedDateTime? = null,
+
+    var resolved: Boolean = false
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
