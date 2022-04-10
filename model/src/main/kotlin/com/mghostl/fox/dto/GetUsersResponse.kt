@@ -1,6 +1,3 @@
 package com.mghostl.fox.dto
 
-data class GetUsersResponse(
-    val users: Set<UserDto>,
-    val count: Long
-)
+class GetUsersResponse(data: Set<UserDto>, count: Long) : GetPageableResponse<UserDto>(data, count)

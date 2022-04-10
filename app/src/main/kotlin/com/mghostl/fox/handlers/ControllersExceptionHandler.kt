@@ -10,6 +10,7 @@ import com.mghostl.fox.sms.model.SmsRuException
 import com.mghostl.fox.sms.model.SmsUserNotFoundException
 import com.mghostl.fox.sms.model.SmsWasSentRecentlyException
 import com.mghostl.fox.sms.model.WrongSmsCodeException
+import io.jsonwebtoken.ExpiredJwtException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -27,6 +28,11 @@ class ControllersExceptionHandler: ResponseEntityExceptionHandler() {
     @ExceptionHandler(UserWasAlreadyRegisteredException::class)
     fun handleException(ex: UserWasAlreadyRegisteredException, request: WebRequest) =
         ResponseEntity(ErrorMessage(ex.message ?: "File storage exception"), HttpStatus.CONFLICT)
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(ExpiredJwtException::class)
+    fun handleException(ex: ExpiredJwtException, request: WebRequest) =
+        ResponseEntity(ErrorMessage(ex.message ?: "Token was expired"), HttpStatus.UNAUTHORIZED)
 
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(ExceedMaxCodeAttemptsException::class)

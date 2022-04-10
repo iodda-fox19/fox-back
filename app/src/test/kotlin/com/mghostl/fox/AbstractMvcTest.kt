@@ -11,12 +11,14 @@ import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType
 import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.context.ActiveProfiles
+import org.springframework.test.context.jdbc.Sql
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.MvcResult
 import org.springframework.test.web.servlet.ResultActions
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 
+@Sql(scripts = ["classpath:clean.sql"], executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @WithMockUser(username = "admin", password = "admin", roles = ["ADMIN"])
 @AutoConfigureMockMvc
 @ActiveProfiles("unit")

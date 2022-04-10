@@ -1,6 +1,3 @@
 package com.mghostl.fox.dto
 
-data class GetComplaintsResponse(
-    val complaints: Set<ComplaintDTO>,
-    val count: Long
-)
+class GetComplaintsResponse(data: Set<ComplaintDTO>, count: Long) : GetPageableResponse<ComplaintDTO>(data, count)

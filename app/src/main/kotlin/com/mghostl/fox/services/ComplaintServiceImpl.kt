@@ -29,7 +29,12 @@ class ComplaintServiceImpl(
     override fun get(limit: Int, offset: Int) = PageRequest.of(offset, limit)
         .let { complaintRepository.findByResolvedFalse(it) }
         .let { it.totalElements to  it.map { complaint -> complaintMapper.map(complaint) }}
-        .let { GetComplaintsResponse(it.second.toSet(), it.first) }
+        .let {
+            GetComplaintsResponse(
+                count = it.first,
+                data = it.second.toSet()
+            )
+        }
 
     @Transactional
     override fun resolve(complaintId: Int) = complaintRepository.findById(complaintId)

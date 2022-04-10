@@ -1,0 +1,21 @@
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet id="remove-user-id-column-in-games" author="mghostl">
+        <dropColumn tableName="Games" columnName="userId"/>
+    </changeSet>
+    <changeSet id="create-game-users" author="mghostl">
+        <createTable tableName="GAME_USER">
+            <column name="user_id" type="int">
+                <constraints foreignKeyName="fk_user" referencedTableName="Users"
+                referencedColumnNames="id" nullable="false"/>
+            </column>
+            <column name="game_id" type="int">
+                <constraints foreignKeyName="fk_gamer" referencedTableName="Games"
+                referencedColumnNames="id" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

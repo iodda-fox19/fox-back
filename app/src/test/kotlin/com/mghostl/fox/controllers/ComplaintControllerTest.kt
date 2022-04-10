@@ -116,7 +116,7 @@ class ComplaintControllerTest: AbstractMvcTest("/api/complaints") {
             .andExpectJson(GetComplaintsResponse(expectedResult, 20))
             .andGetResponse(GetComplaintsResponse::class.java)
 
-        assertEquals(limit, result.complaints.size)
+        assertEquals(limit, result.data.size)
     }
 
     @WithMockFoxUser(roles = ["USER"])

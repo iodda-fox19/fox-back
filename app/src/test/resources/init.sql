@@ -731,7 +731,8 @@ INSERT INTO "GameMembers" ("id", "userId", "gameId", "status", "createdAt", "upd
                                                                                              (400,	473,	121,	'New',	'2021-10-28 18:59:32.378+00',	'2021-10-28 18:59:32.378+00'),
                                                                                              (401,	473,	135,	'New',	'2021-10-28 19:28:03.625+00',	'2021-10-28 19:28:03.625+00');
 
-DROP TABLE IF EXISTS "Games";
+DROP TABLE IF EXISTS GAME_USER cascade;
+DROP TABLE IF EXISTS "Games" cascade;
 DROP SEQUENCE IF EXISTS "Games_id_seq";
 CREATE SEQUENCE "Games_id_seq" start with 1 INCREMENT by 1 MINVALUE 1  No  MAXVALUE  CACHE 1 ;
 

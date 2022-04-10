@@ -15,3 +15,7 @@ databaseChangeLog:
       file: db/changelog/2022-04-09--add-sms-attempts.xml
   - include:
       file: db/changelog/2022-04-09--02-resolved-complaint.xml
+  - include:
+      file: db/changelog/2022-04-10--01-add-games-users.xml
+  - include:
+      file: db/changelog/2022-04-10--02-add-handicap-restrictions-for-games.xml
