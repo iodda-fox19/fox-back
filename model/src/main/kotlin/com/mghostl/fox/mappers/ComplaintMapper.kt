@@ -14,6 +14,7 @@ interface ComplaintMapper {
         Mapping(target = "userId", ignore = true),
         Mapping(target = "updatedAt", ignore = true),
         Mapping(target = "createdAt", ignore = true),
+        Mapping(target = "resolved", ignore = true),
     )
     fun map(complaintDTO: ComplaintDTO): Complaint
 }

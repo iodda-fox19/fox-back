@@ -4,6 +4,8 @@ import javax.validation.constraints.NotNull
 
 data class ComplaintDTO(
 
+    var id: Int? = null,
+
     @field:NotNull
     var indictedUserId: Int? = null,
 

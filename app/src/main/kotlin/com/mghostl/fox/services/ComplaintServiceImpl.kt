@@ -6,6 +6,7 @@ import com.mghostl.fox.mappers.ComplaintMapper
 import com.mghostl.fox.repository.ComplaintRepository
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
+import javax.persistence.EntityNotFoundException
 import javax.transaction.Transactional
 
 @Service
@@ -29,6 +30,13 @@ class ComplaintServiceImpl(
         .let { complaintRepository.findByResolvedFalse(it) }
         .let { it.totalElements to  it.map { complaint -> complaintMapper.map(complaint) }}
         .let { GetComplaintsResponse(it.second.toSet(), it.first) }
+
+    @Transactional
+    override fun resolve(complaintId: Int) = complaintRepository.findById(complaintId)
+        .orElseThrow { EntityNotFoundException("There is no complaint with id $complaintId") }
+        .apply { resolved = true }
+        .let { complaintRepository.save(it)}
+        .let { complaintMapper.map(it)}
 
     private fun checkIndictedUserExists(complaintDTO: ComplaintDTO) {
         userService.findById(complaintDTO.indictedUserId!!)

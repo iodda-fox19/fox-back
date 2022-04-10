@@ -8,6 +8,7 @@ import com.mghostl.fox.model.Complaint
 import com.mghostl.fox.repository.ComplaintRepository
 import com.mghostl.fox.repository.UserRepository
 import com.mghostl.fox.utils.user
+import org.hamcrest.Matchers.`is`
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.BeforeEach
@@ -15,6 +16,8 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 class ComplaintControllerTest: AbstractMvcTest("/api/complaints") {
@@ -41,11 +44,12 @@ class ComplaintControllerTest: AbstractMvcTest("/api/complaints") {
         val indictedUserId = user()
             .also { userRepository.save(it) }.id
 
-        val complaintDTO = ComplaintDTO(indictedUserId, "Comment")
+        val complaintDTO = ComplaintDTO(null, indictedUserId, "Comment")
 
         mvc.perform(post(basePath).json(complaintDTO))
             .andExpect(status().isOk)
-            .andExpectJson(complaintDTO)
+            .andExpect(jsonPath("$.indictedUserId", `is`(indictedUserId)))
+            .andExpect(jsonPath("$.comment", `is`(complaintDTO.comment)))
 
         val complaint = complaintRepository.findAll()
                 .first { it.userId == userId && it.indictedUserId == indictedUserId }
@@ -55,7 +59,7 @@ class ComplaintControllerTest: AbstractMvcTest("/api/complaints") {
 
     @Test
     fun `should return 403 if user's not auth`() {
-        mvc.perform(post(basePath).json(ComplaintDTO(123, "comment")))
+        mvc.perform(post(basePath).json(ComplaintDTO(1, 123, "comment")))
             .andExpect(status().isForbidden)
     }
 
@@ -80,14 +84,14 @@ class ComplaintControllerTest: AbstractMvcTest("/api/complaints") {
     @WithMockFoxUser(roles = ["ADMIN"])
     @Test
     fun `should return unresolved complaints`() {
-        val resolvedComplaint = Complaint(userId = 1, indictedUserId = 2, resolved = true, comment = "Comment")
+        Complaint(userId = 1, indictedUserId = 2, resolved = true, comment = "Comment")
             .also { complaintRepository.save(it) }
         val unResolvedComplaint = Complaint(userId = 1, indictedUserId = 2, resolved = false, comment = "Comment 2")
-            .also { complaintRepository.save(it) }
+            .let { complaintRepository.save(it) }
 
         mvc.perform(get(basePath))
             .andExpect(status().isOk)
-            .andExpectJson(GetComplaintsResponse(setOf(ComplaintDTO(unResolvedComplaint.indictedUserId, unResolvedComplaint.comment)), 1))
+            .andExpectJson(GetComplaintsResponse(setOf(ComplaintDTO(unResolvedComplaint.id, unResolvedComplaint.indictedUserId, unResolvedComplaint.comment)), 1))
     }
 
     @WithMockFoxUser(roles = ["ADMIN"])
@@ -101,7 +105,7 @@ class ComplaintControllerTest: AbstractMvcTest("/api/complaints") {
 
         val expectedResult = mutableSetOf<ComplaintDTO>()
         repeat(10) { i ->
-            ComplaintDTO(2, "Comment $i")
+            ComplaintDTO(i + 1, 2,"Comment $i")
                 .also { expectedResult.add(it) }
         }
         val result = mvc.perform(get(basePath)
@@ -120,5 +124,31 @@ class ComplaintControllerTest: AbstractMvcTest("/api/complaints") {
     fun `should return 403 for not admin`() {
         mvc.perform(get(basePath))
             .andExpect(status().isForbidden)
+    }
+
+    @WithMockFoxUser(roles = ["USER"])
+    @Test
+    fun `should return 403 if not admin trying to resolve complaint`() {
+        mvc.perform(put("$basePath/123"))
+            .andExpect(status().isForbidden)
+    }
+
+    @WithMockFoxUser(roles = ["ADMIN"])
+    @Test
+    fun `should return 404 if there is no such complaint`() {
+        mvc.perform(put("$basePath/123"))
+            .andExpect(status().isNotFound)
+    }
+
+    @WithMockFoxUser(roles = ["ADMIN"])
+    @Test
+    fun `should resolve complaint`() {
+        val complaint = Complaint(null, 2, 3,
+        "Comment")
+            .let { complaintRepository.save(it) }
+
+        mvc.perform(put("$basePath/${complaint.id}"))
+            .andExpect(status().isOk)
+            .andExpectJson(ComplaintDTO(complaint.id, complaint.indictedUserId, complaint.comment))
     }
 }
